@@ -1,10 +1,10 @@
 package estate.management.com.domain.user;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 import lombok.*;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 
 @AllArgsConstructor
@@ -20,6 +20,7 @@ public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Setter(AccessLevel.NONE)
     private Long id;
 
     @Enumerated(EnumType.STRING)

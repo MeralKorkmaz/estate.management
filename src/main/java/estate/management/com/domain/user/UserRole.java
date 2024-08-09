@@ -5,7 +5,7 @@ package estate.management.com.domain.user;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -18,6 +18,7 @@ import javax.persistence.*;
 public class UserRole {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Setter(AccessLevel.NONE)
     private Long id;
 
     //bunu anlamadim
