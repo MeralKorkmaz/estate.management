@@ -1,5 +1,7 @@
 package estate.management.com.security.service;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,25 +20,26 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 
+
 public class UserDetailsImpl implements UserDetails {
 
     private Long id;
-    private String firstName;
+    private String firstname;
     private String email;
     private Collection<? extends GrantedAuthority> authorities;
 
+    @JsonIgnore
+    private String passwordHash;
 
-    private  String passwordHash;
-
-    public UserDetailsImpl(Long id, String firstName, String email,  String passwordHash,
-                           String Role) {
+    public UserDetailsImpl(Long id, String firstname, String email, String passwordHash, String role) {
         this.id = id;
-        this.firstName = firstName;
+        this.firstname = firstname;
         this.email = email;
         this.passwordHash = passwordHash;
-        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-        grantedAuthorities.add(new SimpleGrantedAuthority(Role));
+        List< GrantedAuthority> grantedAuthorities=new ArrayList<>();
+        grantedAuthorities.add(new SimpleGrantedAuthority(role));
         this.authorities = grantedAuthorities;
+
     }
 
     @Override
@@ -51,12 +54,12 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getUsername() {
-        return null; //we do not have a field called userName
+        return null;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return  true;
+        return true;
     }
 
     @Override
@@ -75,14 +78,13 @@ public class UserDetailsImpl implements UserDetails {
     }
 
     public boolean equals(Object o){
-        if(this==o){
-            return true;
-        }
-        if (o==null || getClass()!=o.getClass()){
-            return false;
-
-        }
-        UserDetailsImpl user = (UserDetailsImpl) o;
-        return Objects.equals(id,user.getId());
+      if(this == o){
+          return true;
+      }
+      if(o == null || getClass()!= o.getClass()){
+          return false;
+      }
+      UserDetailsImpl user= (UserDetailsImpl) o;
+      return Objects.equals(id, user.getId());
     }
 }

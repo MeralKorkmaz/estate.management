@@ -22,7 +22,6 @@ public class TourRequest {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Setter(AccessLevel.NONE)
     private Long id;
 
     @Column(name = "tour_date", nullable = false)
