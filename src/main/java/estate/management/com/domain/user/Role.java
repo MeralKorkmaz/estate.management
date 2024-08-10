@@ -1,10 +1,10 @@
 package estate.management.com.domain.user;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 import lombok.*;
 
-import jakarta.validation.constraints.NotNull;
+import javax.validation.constraints.NotNull;
 
 
 @AllArgsConstructor

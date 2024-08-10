@@ -2,13 +2,13 @@ package estate.management.com.domain.user;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.*;
 
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -69,8 +69,8 @@ public class User {
     private LocalDateTime updateAt;
 
 
-    @OneToMany(mappedBy = "user")
-    private Set<UserRole> userRoles;
+    @OneToOne(mappedBy = "user")
+    private UserRole userRoles;
 
 
 
