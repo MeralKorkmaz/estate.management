@@ -35,9 +35,10 @@ public class Advert {
     @Size(min = 5, max = 150, message = "Title must be between {min} and {max} characters")
     private String title;
 
-    @Column(name = "desc", length = 300)
+    // FIX: desc is a reserved Keyword in PostgreSQL. Changed to description
+    @Column(name = "description", length = 300)
     @Size(max = 300, message = "Description can contain maximum {max} characters")
-    private String desc;
+    private String description;
 
 
     //TODO: slug arastirilacak
