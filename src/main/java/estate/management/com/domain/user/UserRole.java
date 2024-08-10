@@ -5,7 +5,7 @@ package estate.management.com.domain.user;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -13,7 +13,6 @@ import jakarta.persistence.*;
 @Builder(toBuilder = true)
 
 @Entity
-//TODO why it says cannot resolve table user_roles and column user_roles_id
 @Table(name = "user_roles")
 public class UserRole {
     @Id
@@ -23,7 +22,12 @@ public class UserRole {
 
     //bunu anlamadim
 
-    @Column(name = "user_roles_id")
-    private int user;
+   @OneToOne
+    private User user;
+
+    private String roleName;
+
+    @Enumerated(EnumType.STRING)
+    private RoleName roleType;
 }
 
