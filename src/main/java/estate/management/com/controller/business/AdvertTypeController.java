@@ -4,6 +4,8 @@ import estate.management.com.domain.advert.AdvertType;
 import estate.management.com.service.business.AdvertTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -18,8 +20,14 @@ public class AdvertTypeController {
         this.advertTypeService = advertTypeService;
     }
 
-    @GetMapping
+    @GetMapping("/advert-types")
     public List<AdvertType> getAllAdvertTypes() {
         return advertTypeService.getAllAdvertTypes();
     }
+
+    @GetMapping("/advert-types/{id}")
+    public AdvertType getAdvertTypeById(@PathVariable Long id) {
+        return advertTypeService.getAdvertTypeById(id);
+    }
+
 }
