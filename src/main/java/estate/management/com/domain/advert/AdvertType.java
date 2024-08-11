@@ -18,7 +18,6 @@ public class AdvertType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Setter(AccessLevel.NONE)
     private Long id;
 
     @Column(name = "title", nullable = false, length = 30)

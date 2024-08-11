@@ -2,7 +2,7 @@ package estate.management.com.domain.administrative;
 
 
 import lombok.*;
-
+import net.bytebuddy.dynamic.loading.InjectionClassLoader;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -23,7 +23,6 @@ public class Country {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Setter(AccessLevel.NONE)
     private Long id;
 
     @Column(name="country_name", nullable = false, length= 30)

@@ -19,7 +19,6 @@ public class CategoryPropertyValue {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Setter(AccessLevel.NONE)
     private Long id;
 
     @Column(name = "value", nullable = false, length = 100)
