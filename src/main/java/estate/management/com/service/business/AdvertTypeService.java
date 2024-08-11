@@ -1,12 +1,11 @@
 package estate.management.com.service.business;
 
 import estate.management.com.domain.advert.AdvertType;
-import estate.management.com.repository.ResourceNotFoundException;
+import estate.management.com.exception.ResourceNotFoundException;
 import estate.management.com.repository.business.AdvertTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 

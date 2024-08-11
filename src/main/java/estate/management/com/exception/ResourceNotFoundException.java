@@ -1,4 +1,4 @@
-package estate.management.com.repository;
+package estate.management.com.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
