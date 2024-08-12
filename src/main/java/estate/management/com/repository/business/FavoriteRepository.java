@@ -10,5 +10,6 @@ import java.util.List;
 public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
 
 
+    // TODO there is not a username check it out again!
     void deleteByUsername(String username);
 }
