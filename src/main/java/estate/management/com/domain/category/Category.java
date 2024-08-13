@@ -9,6 +9,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @AllArgsConstructor
@@ -16,7 +18,6 @@ import java.time.LocalDateTime;
 @Builder(toBuilder = true)
 @Getter
 @Setter
-
 @Entity
 @Table(name = "category")
 public class Category {
@@ -49,7 +50,7 @@ public class Category {
 
     @Column(name = "isActive",nullable = false)
     @NotNull(message = "isActive cannot be null")
-    private boolean isActive=true;
+    private boolean isActive;
 
 
 
@@ -65,10 +66,12 @@ public class Category {
 
     @OneToOne(mappedBy = "category")
     private TourRequest tourRequest;
-
-
-
-
+    @ElementCollection
+    @CollectionTable(name = "category_properties", joinColumns = @JoinColumn(name = "category_id"))
+    @Column(name = "property")
+    private List<String> properties = new ArrayList<>();
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CategoryPropertyKey> propertyKeys = new ArrayList<>();
 
 
     @PrePersist
@@ -80,6 +83,39 @@ public class Category {
     @PreUpdate
     private void onUpdate() {
         updateAt = LocalDateTime.now();
+    }
+    public void setProperties(List<String> properties) {
+        this.properties = properties;
+    }
+    public List<String> getProperties() {
+        return properties;
+    }
+
+
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
+    }
+
+    public void setPropertyKeys(List<CategoryPropertyKey> propertyKeys) {
+        this.propertyKeys = propertyKeys;
+    }
+
+
+
+    // Method to get the name from CategoryPropertyKey
+    public String getName() {
+        return propertyKeys.stream()
+                .map(CategoryPropertyKey::getName)
+                .findFirst()
+                .orElse(null);
+    }
+
+    // Method to get the value from CategoryPropertyKey
+    public String getValue() {
+        return propertyKeys.stream()
+                .map(CategoryPropertyKey::getValue)
+                .findFirst()
+                .orElse(null);
     }
 }
 

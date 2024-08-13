@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -33,9 +34,20 @@ public class CategoryPropertyKey {
     @Column(name = "built_in")
     private Boolean built_in = false;
 
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    @JsonIgnore
+    private Category category;
 
-    @Column(name = "category_id")
-    private int categoryId;
+    @OneToMany(mappedBy = "categoryPropertyKey", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CategoryPropertyValue> propertyValues = new ArrayList<>();
+
+    // Method to get the value from the associated CategoryPropertyValue
+    public String getValue() {
+        return propertyValues.stream()
+                .map(CategoryPropertyValue::getValue)
+                .findFirst()
+                .orElse(null);}
 }
 
 

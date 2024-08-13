@@ -31,8 +31,9 @@ public class CategoryPropertyValue {
     @Column(name = "advert_id")
     private int advertId;
 
+    @ManyToOne
+    @JoinColumn(name = "category_property_key_id", nullable = false)
+    private CategoryPropertyKey categoryPropertyKey;
 
-    @Column(name = "category_property_key_id")
-    private int categoryPropertyKeyId;
 
 }

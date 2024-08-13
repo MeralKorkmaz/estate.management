@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+import java.util.Arrays;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -13,8 +16,14 @@ public class CategoryRequest {
     private Long id;
     private String title;
     private String icon;
-    private int seq=0;
+    private int seq;
     private String slug;
-    private boolean isActive=true;
+    private boolean isActive;
+    private LocalDateTime createAt;
+    private LocalDateTime updateAt;
+
+
+
+
 }
 
