@@ -17,7 +17,10 @@ import javax.validation.constraints.Size;
 public class AdvertType {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    // @GeneratedValue(strategy = GenerationType.AUTO)
+    // Had to change the value here, as Hibernate somehow set it wrongfully.
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter(AccessLevel.NONE)
     private Long id;
 
     @Column(name = "title", nullable = false, length = 30)

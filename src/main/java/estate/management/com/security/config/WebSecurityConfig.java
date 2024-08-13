@@ -100,6 +100,8 @@ public class WebSecurityConfig {
             "/css/**",
             "/js/**",
             "/contactMessages/save",
+            "/auth/login",
+            "/advert-types"
             "/users/login",
             "/users/register"
     };

@@ -27,6 +27,7 @@ public class Advert {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Setter(AccessLevel.NONE)
     private Long id;
 
     @Column(name = "title", nullable = false, length = 150)
@@ -34,6 +35,7 @@ public class Advert {
     @Size(min = 5, max = 150, message = "Title must be between {min} and {max} characters")
     private String title;
 
+    // FIX: desc is a reserved Keyword in PostgreSQL. Changed to description
     @Column(name = "description", length = 300)
     @Size(max = 300, message = "Description can contain maximum {max} characters")
     private String description;
