@@ -1,6 +1,7 @@
 package estate.management.com.controller.business;
 
 import estate.management.com.payload.request.CategoryRequest;
+import estate.management.com.payload.response.ResponseMessage;
 import estate.management.com.payload.response.business.CategoryResponse;
 import estate.management.com.service.business.CategoryService;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/categories")
 @RequiredArgsConstructor
 public class CategoryController {
-
     private final CategoryService categoryService;
 
     // C01-Endpoint to fetch active categories with optional title filtering and pagination
@@ -28,7 +28,7 @@ public class CategoryController {
         return ResponseEntity.ok(categories);
     }
 
-    //C02- Endpoint to fetch all categories with optional title filtering and pagination (Admin only)
+    //C02- Endpoint to fetch all categories with optional title filtering and pagination
     @GetMapping("/admin")
     @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")
     public ResponseEntity<Page<CategoryResponse>> getAllCategoriesByTitle(
@@ -47,12 +47,19 @@ public class CategoryController {
         CategoryResponse categoryResponse = categoryService.findById(id);
         return ResponseEntity.ok(categoryResponse);
     }
+    // C04-Endpoint to create a new category--did not work
 
-    // C04-Endpoint to save a new category (Admin/Manager only)
-    @PostMapping("/save")
+    //@PostMapping(value = "/save", produces = MediaType.APPLICATION_JSON_VALUE)
+    //    @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")
+    //    public ResponseEntity<CategoryResponse> createCategory(@RequestBody Category category) {
+    //        CategoryResponse createdCategory = categoryService.createCategory(category);
+    //        CategoryResponse response = new CategoryResponse(createdCategory);
+    //        return ResponseEntity.ok(response);
+    //    }
+ //C05 Update By Id
+    @PutMapping("/update/{id}")//does not work properly
     @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")
-    public ResponseEntity<CategoryResponse> saveCategory(@RequestBody CategoryRequest categoryRequest) {
-        CategoryResponse categoryResponse = categoryService.saveCategory(categoryRequest);
-        return ResponseEntity.ok(categoryResponse);
-    }
-}
+    public ResponseMessage<CategoryResponse> updateCategory(@PathVariable Long id, @RequestBody CategoryRequest categoryRequest) {
+            ResponseMessage<CategoryResponse> categoryResponse = categoryService.updateCategory(id, categoryRequest);
+            return categoryService.updateCategory(id,categoryRequest);
+        }}

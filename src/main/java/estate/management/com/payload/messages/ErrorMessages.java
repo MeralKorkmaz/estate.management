@@ -2,6 +2,7 @@ package estate.management.com.payload.messages;
 
 public class ErrorMessages {
 
+
     private ErrorMessages(){
 
     }

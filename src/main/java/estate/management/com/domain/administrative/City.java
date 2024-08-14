@@ -17,7 +17,9 @@ import javax.validation.constraints.Size;
 public class City {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //changed form AUTO to IDENTITY
+    @Setter(AccessLevel.NONE)
     private Long id;
 
     @Column(name = "name", nullable = false, length = 30)

@@ -4,9 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -31,7 +29,7 @@ public class CategoryPropertyKey {
     @Size(min = 2, max = 80, message = "Title must be between {min} and {max} characters")
     private String name;
 
-    @Column(name = "built_in")
+    @Column(name = "built_in", nullable = false, updatable = false)
     private Boolean built_in = false;
 
     @ManyToOne
@@ -39,16 +37,17 @@ public class CategoryPropertyKey {
     @JsonIgnore
     private Category category;
 
-    @OneToMany(mappedBy = "categoryPropertyKey", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CategoryPropertyValue> propertyValues = new ArrayList<>();
+    @OneToMany
+    @JoinColumn(name = "category_property_value_id", nullable = false)
+    private Set<CategoryPropertyValue> categoryPropertyValue;
 
-    // Method to get the value from the associated CategoryPropertyValue
-    public String getValue() {
-        return propertyValues.stream()
-                .map(CategoryPropertyValue::getValue)
-                .findFirst()
-                .orElse(null);}
 }
+
+
+
+
+
+
 
 
 

@@ -1,37 +1,51 @@
 package estate.management.com.payload.mappers;
 
 import estate.management.com.domain.category.Category;
-import estate.management.com.payload.request.CategoryRequest;
+import estate.management.com.domain.category.CategoryPropertyKey;
+import estate.management.com.domain.category.CategoryPropertyValue;
+import estate.management.com.payload.request.PropertyKeyRequest;
+import estate.management.com.payload.request.PropertyValueRequest;
 import estate.management.com.payload.response.business.CategoryResponse;
+import estate.management.com.payload.response.business.PropertyKeyResponse;
+import estate.management.com.payload.response.business.PropertyValueResponse;
 import org.springframework.stereotype.Component;
+
+
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class CategoryMapper {
 
-    public Category mapCategoryRequestToCategories(CategoryRequest categoryRequest) {
-        Category category = Category.builder()
+    public Category mapCategoryRequestToCategory(Category categoryRequest) {
+        return Category.builder()
                 .title(categoryRequest.getTitle())
                 .icon(categoryRequest.getIcon())
                 .seq(categoryRequest.getSeq())
                 .slug(categoryRequest.getSlug())
-                .isActive(categoryRequest.isActive())
+                .active(categoryRequest.getActive())
                 .createAt(categoryRequest.getCreateAt())
                 .updateAt(categoryRequest.getUpdateAt())
+
                 .build();
-        return category;
     }
 
     public CategoryResponse mapCategoryToCategoryResponse(Category category) {
-        CategoryResponse categoryResponse = CategoryResponse.builder()
-                .id(category.getId())
+        return CategoryResponse.builder()
                 .title(category.getTitle())
                 .icon(category.getIcon())
                 .seq(category.getSeq())
                 .slug(category.getSlug())
-                .isActive(category.isActive())
+                .active(category.getActive())
                 .createAt(category.getCreateAt())
                 .updateAt(category.getUpdateAt())
                 .build();
-        return categoryResponse;
+
+    }
+    public Category mapCategoryRequestToCategoryForUpdate(Long id,Category categoryRequest){
+        Category term =  mapCategoryRequestToCategory(categoryRequest);
+        term.setId(id);
+        return term;
     }
 }
