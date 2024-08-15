@@ -11,14 +11,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FavoriteService {
 
+    /*
+
     private final FavoriteRepository favoriteRepository;
 
 
     //    TODO add logic (get fav id and map it to the user and related advert)
     public List<Favorite> getAllFavoritesByUser(HttpServletRequest httpServletRequest) {
-        String username =(String) httpServletRequest.getAttribute("username");
 
-        return favoriteRepository.findAll();
+        return null;
     }
 
     public List<Favorite> getUserFavoriteByUserId(Long id) {
@@ -39,7 +40,7 @@ public class FavoriteService {
 
     // TODO DO we need more logic? A question for ensure or etc?
     public void deleteAllUserFavorites(HttpServletRequest httpServletRequest) {
-        String username = (String) httpServletRequest.getAttribute("username");
-        favoriteRepository.deleteByUsername(username);
      }
+
+     */
 }

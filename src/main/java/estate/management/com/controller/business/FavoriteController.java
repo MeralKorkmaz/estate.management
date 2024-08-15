@@ -16,6 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FavoriteController {
 
+    /*
     private final FavoriteService favoriteService;
 
     // TODO create FavoriteResponse and map it!!!
@@ -46,5 +47,6 @@ public class FavoriteController {
     }
 
 
+     */
 
 }
