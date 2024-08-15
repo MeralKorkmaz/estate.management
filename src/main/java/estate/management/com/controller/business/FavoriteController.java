@@ -26,7 +26,8 @@ public class FavoriteController {
         return  ResponseEntity.ok(favoriteService.getAllFavoritesByUser(httpServletRequest));
     }
 
-    @PreAuthorize("hasAuthority('Admin', 'Manager')")
+    // hasAuthority changed as following
+    @PreAuthorize("hasAnyAuthority('Admin', 'Manager')")
     @GetMapping("/admin/{userId}")
     public ResponseEntity<List<Favorite>> getUserFavoriteByUserId(@PathVariable Long userId){
         return ResponseEntity.ok(favoriteService.getUserFavoriteByUserId(userId));
