@@ -17,10 +17,13 @@ public class AdvertService {
     private final PageableHelper pageableHelper;
     private final AdvertMapper advertMapper;
 
-    public Page<AdvertResponse> getTheAdvertsByPage(int page, int size, String sort, String type) {
+    public Page<AdvertResponse> getTheAdvertsByPage(String q, Integer categoryId, Integer advertTypeId,
+                                                    Double priceStart, Double priceEnd, String location,
+                                                    Integer status, int page, int size, String sort, String type) {
 
-      Pageable pageable =  pageableHelper.getPageable(page, size, sort, type);
-      return  advertRepository.findAll(pageable).map(advertMapper::mapAdvertToAdvertResponse);
+        Pageable pageable = pageableHelper.getPageable(page, size, sort, type);
+        return advertRepository.findAdvertsByCriteria(q, categoryId, advertTypeId, priceStart, priceEnd, location, status, pageable)
+                .map(advertMapper::mapAdvertToAdvertResponse);
 
     }
 }
