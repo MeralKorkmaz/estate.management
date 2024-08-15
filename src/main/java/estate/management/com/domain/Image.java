@@ -1,7 +1,7 @@
 package estate.management.com.domain;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Setter;
 
