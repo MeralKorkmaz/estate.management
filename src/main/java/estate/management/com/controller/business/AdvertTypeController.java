@@ -1,6 +1,7 @@
 package estate.management.com.controller.business;
 
 import estate.management.com.domain.advert.AdvertType;
+import estate.management.com.payload.response.AdvertTypeResponse;
 import estate.management.com.service.business.AdvertTypeService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -19,18 +20,20 @@ public class AdvertTypeController {
 
     private final AdvertTypeService advertTypeService;
 
-
+    //Get All AdvertTypes
     @GetMapping("/advert-types")
-    public ResponseEntity<List<AdvertType>> getAllAdvertTypes() {
-        return ResponseEntity.status(HttpStatus.OK).body(advertTypeService.getAllAdvertTypes());
+    public List<AdvertTypeResponse> getAllAdvertTypes() {
+        return advertTypeService.getAllAdvertTypes();
     }
 
+    //Get AdvertType by ID
     @GetMapping("/advert-types/{id}")
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'MANAGER')")
-    public ResponseEntity<AdvertType> getAdvertTypeById(@PathVariable Long id) {
-        return ResponseEntity.status(HttpStatus.OK).body(advertTypeService.getAdvertTypeById(id));
+    //@PreAuthorize("hasAnyAuthority('ADMIN', 'MANAGER')")
+    public AdvertTypeResponse getAdvertTypeById(@PathVariable Long id) {
+        return advertTypeService.getAdvertTypeById(id);
     }
 
+    //Create AdvertType
     @PostMapping("/advert-types")
     @PreAuthorize("hasAnyAuthority('ADMIN', 'MANAGER')")
     public ResponseEntity<AdvertType> createAdvertType(@Validated @RequestBody AdvertType advertType) {
