@@ -1,6 +1,7 @@
 package estate.management.com.controller.business;
 
 import estate.management.com.domain.administrative.City;
+import estate.management.com.payload.response.CityResponse;
 import estate.management.com.service.business.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +20,7 @@ public class CityController {
     }
 
     @GetMapping("/cities")
-    public List<City> getAllCities() {
+    public List<CityResponse> getAllCities() {
         return cityService.getAllCities();
     }
     

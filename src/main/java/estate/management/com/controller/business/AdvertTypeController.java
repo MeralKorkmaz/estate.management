@@ -28,7 +28,7 @@ public class AdvertTypeController {
 
     //Get AdvertType by ID
     @GetMapping("/advert-types/{id}")
-    //@PreAuthorize("hasAnyAuthority('ADMIN', 'MANAGER')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'MANAGER')")
     public AdvertTypeResponse getAdvertTypeById(@PathVariable Long id) {
         return advertTypeService.getAdvertTypeById(id);
     }
