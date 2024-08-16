@@ -26,13 +26,13 @@ public class AdvertTypeController {
     }
 
     @GetMapping("/advert-types/{id}")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'MANAGER')")
     public ResponseEntity<AdvertType> getAdvertTypeById(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(advertTypeService.getAdvertTypeById(id));
     }
 
     @PostMapping("/advert-types")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'MANAGER')")
     public ResponseEntity<AdvertType> createAdvertType(@Validated @RequestBody AdvertType advertType) {
         AdvertType createdAdvertType = advertTypeService.createAdvertType(advertType);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdAdvertType);
