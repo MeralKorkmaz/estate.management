@@ -4,12 +4,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.*;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
@@ -32,15 +32,56 @@ public class CategoryPropertyKey {
     @Column(name = "built_in", nullable = false, updatable = false)
     private Boolean built_in = false;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id", nullable = false)
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id",nullable = false)
     @JsonIgnore
     private Category category;
+    @JsonIgnore
+    @OneToMany(mappedBy = "categoryPropertyKey", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CategoryPropertyValue> categoryPropertyValue = new ArrayList<>();
 
-    @OneToMany
-    @JoinColumn(name = "category_property_value_id", nullable = false)
-    private Set<CategoryPropertyValue> categoryPropertyValue;
+    public List<CategoryPropertyValue> getCategoryPropertyValue() {
+        return categoryPropertyValue;
+    }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Boolean getBuilt_in() {
+        return built_in;
+    }
+
+    public void setBuilt_in(Boolean built_in) {
+        this.built_in = built_in;
+    }
+
+    public void setCategoryPropertyValue(List<CategoryPropertyValue> categoryPropertyValue) {
+        this.categoryPropertyValue = categoryPropertyValue;
+
+    }
+
+
+    public Boolean isBuilt_in() {return built_in;
+    }
+
+    public void addCategoryPropertyValue(CategoryPropertyValue propertyValues) {
+        propertyValues.setCategoryPropertyKey(this);
+        categoryPropertyValue.add(propertyValues);
+    }
 }
 
 

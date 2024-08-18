@@ -1,14 +1,9 @@
 package estate.management.com.domain.category;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
-
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import estate.management.com.domain.TourRequest;
+import estate.management.com.payload.response.business.CategoryPropertyKeyResponse;
 import lombok.*;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -16,9 +11,6 @@ import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-
-
 
     @AllArgsConstructor
     @NoArgsConstructor
@@ -34,50 +26,145 @@ import java.util.Set;
         private Long id;
         @Column(name = "title", nullable = false, length = 150)
         @NotNull(message = "Title cannot be null")
-        @Size(max=150 ,message = "Title must be less then {max} characters")
+        @Size(max = 150, message = "Title must be less then {max} characters")
         private String title;
         @NotNull(message = "Icon is required")
         @Column(name = "icon", nullable = false, length = 50)
-        @Size(max=50 ,message = "icon must be less then {max} characters")
+        @Size(max = 50, message = "icon must be less then {max} characters")
         private String icon;
-        @Column(name = "built_in", nullable = false, updatable = false)
-        private Boolean built_in=false;
-        @Column(name = "seq",nullable = false)
+        @Column(name = "built_in", nullable = false)
+        private Boolean built_in = false;
+        @Column(name = "seq", nullable = false)
         @NotNull(message = "seq cannot be null")
-        private int seq=0;
+        private int seq = 0;
         @Size(min = 5, max = 200, message = "Slug must be between 5 and 200 characters")
         @Pattern(regexp = "^[a-zA-Z0-9-_]+$")
-        @Column(name = "slug",nullable = false)
+        @Column(name = "slug", nullable = false)
         private String slug;
-        @Column(name = "isActive",nullable = false)
+        @Column(name = "isActive", nullable = false)
         @NotNull(message = "isActive cannot be null")
-        private boolean active=true;
-        @Column(name = "create_at",nullable = false)
+        private boolean isActive = true;
+        @Column(name = "create_at", nullable = false)
         @NotNull(message = "creation cannot be null")
         @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
         private LocalDateTime createAt;
-        @Column(name = "updateAt",nullable = true)
+        @Column(name = "updateAt", nullable = true)
         @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
         private LocalDateTime updateAt;
+
         @OneToOne(mappedBy = "category")
         private TourRequest tourRequest;
-        @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch=FetchType.LAZY, orphanRemoval = true)
-        private Set<CategoryPropertyKey> categoryPropertyKey;
+        @NotNull
+        @JsonIgnore
+        @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+        private List<CategoryPropertyKey> categoryPropertyKey = new ArrayList<>();
         @PrePersist
         private void onCreate() {
             createAt = LocalDateTime.now();
             updateAt = LocalDateTime.now();
         }
+
         @PreUpdate
         private void onUpdate() {
             updateAt = LocalDateTime.now();
         }
-        public boolean getActive() {
-            return active;
+
+
+        public List<CategoryPropertyKey> getCategoryPropertyKey() {
+            return categoryPropertyKey;
+        }
+
+        public void setCategoryPropertyKey(List<CategoryPropertyKey> categoryPropertyKey) {
+            this.categoryPropertyKey = categoryPropertyKey;
+        }
+
+        public void addCategoryPropertyKey(CategoryPropertyKey key) {
+            key.setCategory(this);
+            this.categoryPropertyKey.add(key);
+        }
+
+        public boolean isActive() {
+            return isActive;
+        }
+
+        public void setIsActive(boolean isActive) {
+            this.isActive=isActive;
+        }
+
+        public Long getId() {
+            return id;
+        }
+
+        public void setId(Long id) {
+            this.id = id;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
+        public String getIcon() {
+            return icon;
+        }
+
+        public void setIcon(String icon) {
+            this.icon = icon;
+        }
+
+        public Boolean getBuilt_in() {
+            return built_in;
+        }
+
+        public void setBuilt_in(Boolean built_in) {
+            this.built_in = built_in;
+        }
+
+        public int getSeq() {
+            return seq;
+        }
+
+        public void setSeq(int seq) {
+            this.seq = seq;
+        }
+
+        public String getSlug() {
+            return slug;
+        }
+
+        public void setSlug(String slug) {
+            this.slug = slug;
+        }
+
+        public LocalDateTime getCreateAt() {
+            return createAt;
+        }
+
+        public void setCreateAt(LocalDateTime createAt) {
+            this.createAt = createAt;
+        }
+
+        public LocalDateTime getUpdateAt() {
+            return updateAt;
+        }
+
+        public void setUpdateAt(LocalDateTime updateAt) {
+            this.updateAt = updateAt;
+        }
+
+        public TourRequest getTourRequest() {
+            return tourRequest;
+        }
+
+        public void setTourRequest(TourRequest tourRequest) {
+            this.tourRequest = tourRequest;
         }
 
 
 
-}
+    }
 
 
