@@ -1,7 +1,9 @@
 package estate.management.com.controller.business;
 
 import estate.management.com.domain.advert.AdvertType;
+import estate.management.com.payload.request.AdvertTypeRequest;
 import estate.management.com.payload.response.AdvertTypeResponse;
+import estate.management.com.payload.response.ResponseMessage;
 import estate.management.com.service.business.AdvertTypeService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +14,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -36,9 +39,9 @@ public class AdvertTypeController {
     //Create AdvertType
     @PostMapping("/advert-types")
     @PreAuthorize("hasAnyAuthority('ADMIN', 'MANAGER')")
-    public ResponseEntity<AdvertType> createAdvertType(@Validated @RequestBody AdvertType advertType) {
-        AdvertType createdAdvertType = advertTypeService.createAdvertType(advertType);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdAdvertType);
+    public ResponseMessage<AdvertTypeResponse> createAdvertType(
+            @RequestBody @Valid AdvertTypeRequest advertTypeRequest) {
+        return advertTypeService.createAdvertType(advertTypeRequest);
     }
 
 

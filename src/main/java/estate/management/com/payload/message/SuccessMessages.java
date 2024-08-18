@@ -63,7 +63,7 @@ public class SuccessMessages {
     public static final String ADVERT_TYPE_CREATED_SUCCESS = "Advert type created successfully!";
     public static final String ADVERT_TYPE_UPDATED_SUCCESS = "Advert type updated successfully!";
     public static final String ADVERT_TYPE_DELETED_SUCCESS = "Advert type deleted successfully!";
-    public static final String ADVERT_TYPE_TITLE_FOUND_SUCCESS = "Advert type with %s title found successfully!";
+    public static final String ADVERT_TYPE_TITLE_FOUND_SUCCESS = "Advert type with the title %s found successfully!";
 
     // SUCCESS MESSAGES FOR TOUR REQUESTS:
     public static final String TOUR_REQUEST_CREATED_SUCCESS = "Tour request created successfully!";
