@@ -34,4 +34,7 @@ public class AdvertTypeService {
         return optionalAdvertType.orElseThrow(() -> new ResourceNotFoundException("Advert type not found"));
     }
 
+    public AdvertType createAdvertType(AdvertType advertType) {
+        return advertTypeRepository.save(advertType);
+    }
 }

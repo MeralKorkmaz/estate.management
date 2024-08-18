@@ -44,7 +44,7 @@ public class CategoryController {
         CategoryResponse categoryResponse = categoryService.findById(id);
         return ResponseEntity.ok(categoryResponse);
     }
-    // C04-Endpoint to create a new category--did not work
+    // C04-Endpoint to create a new category
 
     @PostMapping("/create")
     @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")//cannot see created values on Postman.

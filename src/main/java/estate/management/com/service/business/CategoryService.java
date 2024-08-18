@@ -79,7 +79,7 @@ public class CategoryService {
                     CategoryPropertyKey propertyKey = new CategoryPropertyKey();
                     propertyKey.setName(keys.getName());
                     propertyKey.setBuilt_in(false);
-                    propertyKey.setCategory(category); // Setting the correct category
+                    propertyKey.setCategory(category);
 
                     List<CategoryPropertyValue> propertyValues = new ArrayList<>();
                     if (keys.getCategoryPropertyValue() != null) {
@@ -87,13 +87,13 @@ public class CategoryService {
                             CategoryPropertyValue propertyValue = new CategoryPropertyValue();
                             propertyValue.setValue(valueObj.getValue());
                             propertyValue.setAdvertId(valueObj.getAdvertId());
-                            propertyValue.setCategoryPropertyKey(propertyKey); // Set the correct property key
+                            propertyValue.setCategoryPropertyKey(propertyKey);
                             propertyValues.add(propertyValue);
                         }
                     }
 
                     propertyKey.setCategoryPropertyValue(propertyValues);
-                    category.getCategoryPropertyKey().add(propertyKey); // Add the property key to the category
+                    category.getCategoryPropertyKey().add(propertyKey);
                 }
             }
 
