@@ -19,7 +19,7 @@ import java.util.Set;
 public class District {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //changed form AUTO to IDENTITY
     @Setter(AccessLevel.NONE)
     private Long id;
 
