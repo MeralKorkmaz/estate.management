@@ -38,12 +38,12 @@ public class FavoriteController {
         return ResponseEntity.ok(favoriteService.toggleFavoriteByUser(advertId));
     }
 
-    @PreAuthorize("hasAuthority('Customer')")
-    @DeleteMapping("/auth")
-    public ResponseEntity<String> deleteAllUserFavorites(HttpServletRequest httpServletRequest){
-        favoriteService.deleteAllUserFavorites(httpServletRequest);
-        return ResponseEntity.ok("All favorites are deleted successfully!");
-    }
+//    @PreAuthorize("hasAuthority('Customer')")
+//    @DeleteMapping("/auth")
+//    public ResponseEntity<String> deleteAllUserFavorites(HttpServletRequest httpServletRequest){
+//        favoriteService.deleteAllUserFavorites(httpServletRequest);
+//        return ResponseEntity.ok("All favorites are deleted successfully!");
+//    }
 
 
 

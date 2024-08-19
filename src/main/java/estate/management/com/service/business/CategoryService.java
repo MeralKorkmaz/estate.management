@@ -12,10 +12,8 @@ import estate.management.com.payload.request.CategoryPropertyValueRequest;
 import estate.management.com.payload.request.CategoryRequest;
 import estate.management.com.payload.response.ResponseMessage;
 import estate.management.com.payload.response.business.CategoryResponse;
-import estate.management.com.repository.CategoryPropertyKeyRepository;
-import estate.management.com.repository.CategoryPropertyValueRepository;
 import estate.management.com.repository.CategoryRepository;
-import estate.management.com.repository.business.AdvertTypeRepository;
+import estate.management.com.repository.business.AdvertRepository;
 import estate.management.com.service.helper.PageableHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +21,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +35,7 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
 //    private final CategoryPropertyKeyRepository categoryPropertyKeyRepository;
 //    private final CategoryPropertyValueRepository categoryPropertyValueRepository;
-    private final AdvertTypeRepository advertTypeRepository;
+    private final AdvertRepository advertTypeRepository;
     private final CategoryMapper categoryMapper;
     private final PageableHelper pageableHelper;
 
@@ -58,8 +58,8 @@ public class CategoryService {
     }
 
 
-    public CategoryResponse findById(Long id) {
-        Category category = categoryRepository.findById(id)
+    public CategoryResponse findCategoryById(Long id) {
+        Category category = categoryRepository.findCategoryById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         String.format(ErrorMessages.CATEGORY_NOT_FOUND_MESSAGE, id)));
         return categoryMapper.mapCategoryToCategoryResponse(category);
@@ -91,7 +91,6 @@ public class CategoryService {
                             propertyValues.add(propertyValue);
                         }
                     }
-
                     propertyKey.setCategoryPropertyValue(propertyValues);
                     category.getCategoryPropertyKey().add(propertyKey);
                 }
@@ -103,7 +102,7 @@ public class CategoryService {
 
 
         public ResponseMessage<CategoryResponse> updateCategory (Long id, CategoryRequest categoryRequest){
-            Category category = categoryRepository.findById(id)
+            Category category = categoryRepository.findCategoryById(id)
                     .orElseThrow(() -> new ResourceNotFoundException(
                             String.format(ErrorMessages.CATEGORY_NOT_FOUND_MESSAGE, id)));
 
@@ -124,14 +123,24 @@ public class CategoryService {
                         .build();
             }
         }
-    public CategoryResponse deleteCategory(Long id) {
-        Category category=categoryRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Category not found with id: " + id));
-    if (category.getBuilt_in()){throw  new OperationNotAllowedException("Cannot delete built-in category");
-    }if (advertTypeRepository.existsByCategoryId(id)) {
+    public ResponseMessage deleteById(Long id) {
+        Category category = categoryRepository.findCategoryById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Category not found with id: " + id));
+
+        if (category.getBuilt_in()) {
+            throw new OperationNotAllowedException("Cannot delete built-in category");
+        }
+        if (advertTypeRepository.existsByCategoryId(id)) {
             throw new OperationNotAllowedException("Cannot delete category with related adverts");
         }
+
         categoryRepository.delete(category);
-        return categoryMapper.mapCategoryToCategoryResponse(category);
+        CategoryResponse categoryResponse = categoryMapper.mapCategoryToCategoryResponse(category);
+        return ResponseMessage.builder()
+                .message(SuccessMessages.CATEGORY_DELETE)
+                .object(categoryResponse)
+                .status(HttpStatus.OK)
+                .build();
     }
 
 }

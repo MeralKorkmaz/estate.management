@@ -1,6 +1,8 @@
 package estate.management.com.payload.messages;
 
 public class SuccessMessages {
+
+
     private SuccessMessages(){
 
     }
@@ -9,6 +11,7 @@ public class SuccessMessages {
 
 
     public static final String CATEGORY_UPDATE = "Category Updated Successfully" ;
+    public static String CATEGORY_DELETE="Category Deleted Successfully";
 
 
 }

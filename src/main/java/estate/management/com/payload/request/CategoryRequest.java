@@ -23,7 +23,7 @@ public class CategoryRequest extends BaseCategoryRequest {
     @NotNull(message = "Slug is required")
     @Pattern(regexp = "^[a-zA-Z0-9_-]+$")
     private String slug;
-    private boolean isActive;
+    private boolean isActive=true;
     private List<CategoryPropertyKeyRequest> categoryPropertyKey = new ArrayList<>();
 
     public boolean isActive() {

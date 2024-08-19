@@ -37,11 +37,10 @@ public class CategoryController {
 
     }
 
-
     //C03- Endpoint to fetch a single category by its ID
     @GetMapping("/{id}")
-    public ResponseEntity<CategoryResponse> getCategory(@PathVariable Long id) {
-        CategoryResponse categoryResponse = categoryService.findById(id);
+    public ResponseEntity<CategoryResponse> findCategoryById(@PathVariable Long id) {
+        CategoryResponse categoryResponse = categoryService.findCategoryById(id);
         return ResponseEntity.ok(categoryResponse);
     }
     // C04-Endpoint to create a new category
@@ -52,8 +51,10 @@ public class CategoryController {
         CategoryResponse createdCategory = categoryService.createCategory(baseCategoryRequest);
         return new ResponseEntity<>(createdCategory, HttpStatus.CREATED);
     }
+    //C05 save
+    
 
- //C05 Update By Id
+ //C06 Update By Id
     @PutMapping("/update/{id}")//cannot see updated value on postman
     @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")
     public ResponseMessage<CategoryResponse> updateCategory(@PathVariable Long id, @RequestBody CategoryRequest categoryRequest) {
@@ -61,10 +62,12 @@ public class CategoryController {
             return categoryService.updateCategory(id,categoryRequest);
         }
         //C06 Deleting by Id
-    @DeleteMapping("/delete/{id}")
+
+    @DeleteMapping("/delete/{id}")// I need to test with AdverId
     @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")
-    public ResponseEntity<CategoryResponse> deleteById(@PathVariable Long id){;
-    CategoryResponse deletedCategory=categoryService.deleteCategory(id);
-    return new ResponseEntity<>(deletedCategory,HttpStatus.OK);}
+    public ResponseEntity<ResponseMessage> deleteById(@PathVariable Long id) {
+        ResponseMessage response = categoryService.deleteById(id);
+        return new ResponseEntity<>(response, response.getStatus());
+    }
 
 }

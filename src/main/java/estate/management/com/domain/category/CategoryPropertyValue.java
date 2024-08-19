@@ -29,7 +29,6 @@ public class CategoryPropertyValue {
         private int advertId;
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "category_property_key_id", nullable = false)
-    @JsonIgnore
     private CategoryPropertyKey categoryPropertyKey;
 
         public Long getId() {

@@ -55,7 +55,6 @@ import java.util.List;
         @OneToOne(mappedBy = "category")
         private TourRequest tourRequest;
         @NotNull
-        @JsonIgnore
         @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
         private List<CategoryPropertyKey> categoryPropertyKey = new ArrayList<>();
         @PrePersist

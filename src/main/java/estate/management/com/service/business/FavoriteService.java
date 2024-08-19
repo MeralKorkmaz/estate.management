@@ -38,8 +38,8 @@ public class FavoriteService {
 
 
     // TODO DO we need more logic? A question for ensure or etc?
-    public void deleteAllUserFavorites(HttpServletRequest httpServletRequest) {
-        String username = (String) httpServletRequest.getAttribute("username");
-        favoriteRepository.deleteByUsername(username);
-     }
+//    public void deleteAllUserFavorites(HttpServletRequest httpServletRequest) {
+//        String username = (String) httpServletRequest.getAttribute("username");
+//        favoriteRepository.deleteByUsername(username);
+//     }
 }
