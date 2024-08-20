@@ -1,21 +1,16 @@
 package estate.management.com.controller.business;
 
-import estate.management.com.domain.advert.AdvertType;
 import estate.management.com.payload.request.AdvertTypeRequest;
 import estate.management.com.payload.response.AdvertTypeResponse;
 import estate.management.com.payload.response.ResponseMessage;
 import estate.management.com.service.business.AdvertTypeService;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -44,6 +39,13 @@ public class AdvertTypeController {
         return advertTypeService.createAdvertType(advertTypeRequest);
     }
 
+    //Updating advertType
+    @PutMapping("/advert-types/{id}")
+    //@PreAuthorize("hasAnyAuthority('ADMIN',  'MANAGER')")
+    public ResponseMessage<AdvertTypeResponse> updateAdvertType(@PathVariable Long id,
+            @RequestBody @Valid AdvertTypeRequest advertTypeRequest) {
+        return advertTypeService.updateAdvertTypeById(id, advertTypeRequest);
+    }
 
 
 }

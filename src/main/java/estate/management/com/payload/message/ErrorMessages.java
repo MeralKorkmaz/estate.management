@@ -62,7 +62,7 @@ public class ErrorMessages {
 
     // ADVERT TYPE:
     public static final String ADVERT_TYPE_GENERAL_NOT_FOUND_ERROR="Advert type cannot be found!";
-    public static final String ADVERT_TYPE_ID_NOT_FOUND_ERROR="Advert type with the id %s cannot found!";
+    public static final String ADVERT_TYPE_ID_NOT_FOUND_ERROR="Advert type with the id %s cannot be found!";
     public static final String ADVERT_TYPE_TITLE_NOT_FOUND_ERROR="Advert type with the title %s cannot be found!";
 
     //  TOUR REQUEST:
