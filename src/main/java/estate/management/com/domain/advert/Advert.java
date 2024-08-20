@@ -113,13 +113,6 @@ public class Advert {
     private int categoryId;
 
 
-
-
-
-
-
-
-
     // ------ METHODS --------
 
     //TODO check if we are using slug again - in helper or service

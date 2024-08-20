@@ -61,9 +61,9 @@ public class ErrorMessages {
     public static final String CATEGORY_SLUG_NOT_FOUND_ERROR="Category with %s slug cannot found!";
 
     // ADVERT TYPE:
-    public static final String ADVERT_TYPE_GENERAL_NOT_FOUND_ERROR="Advert type cannot found!";
-    public static final String ADVERT_TYPE_ID_NOT_FOUND_ERROR="Advert type with %s id cannot found!";
-    public static final String ADVERT_TYPE_TITLE_NOT_FOUND_ERROR="Advert type with %s title cannot found!";
+    public static final String ADVERT_TYPE_GENERAL_NOT_FOUND_ERROR="Advert type cannot be found!";
+    public static final String ADVERT_TYPE_ID_NOT_FOUND_ERROR="Advert type with the id %s cannot be found!";
+    public static final String ADVERT_TYPE_TITLE_NOT_FOUND_ERROR="Advert type with the title %s cannot be found!";
 
     //  TOUR REQUEST:
     public static final String TOUR_REQUEST_GENERAL_NOT_FOUND_ERROR="Tour request cannot found!";
