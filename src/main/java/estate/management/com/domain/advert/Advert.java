@@ -90,7 +90,7 @@ public class Advert {
 
     @Column(name = "advert_type_id", nullable = false)
     @NotNull(message = "advertTypeId cannot be null" )
-    private int advertTypeId;
+    private Long advertTypeId;
 
     @Column(name = "country_id", nullable = false)
     @NotNull(message = "countryId cannot be null" )

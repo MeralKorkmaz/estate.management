@@ -41,11 +41,17 @@ public class AdvertTypeController {
 
     //Updating advertType
     @PutMapping("/advert-types/{id}")
-    //@PreAuthorize("hasAnyAuthority('ADMIN',  'MANAGER')")
+    @PreAuthorize("hasAnyAuthority('ADMIN',  'MANAGER')")
     public ResponseMessage<AdvertTypeResponse> updateAdvertType(@PathVariable Long id,
             @RequestBody @Valid AdvertTypeRequest advertTypeRequest) {
         return advertTypeService.updateAdvertTypeById(id, advertTypeRequest);
     }
 
+    //Delete advertType
+    @DeleteMapping("/advert-types/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'MANAGER')")
+    public ResponseMessage<AdvertTypeResponse> deleteAdvertType(@PathVariable Long id) {
+        return advertTypeService.deleteAdvertTypeById(id);
+    }
 
 }

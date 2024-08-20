@@ -2,6 +2,7 @@ package estate.management.com.payload.message;
 
 public class ErrorMessages {
 
+
     private ErrorMessages() {
     }
 
@@ -64,6 +65,7 @@ public class ErrorMessages {
     public static final String ADVERT_TYPE_GENERAL_NOT_FOUND_ERROR="Advert type cannot be found!";
     public static final String ADVERT_TYPE_ID_NOT_FOUND_ERROR="Advert type with the id %s cannot be found!";
     public static final String ADVERT_TYPE_TITLE_NOT_FOUND_ERROR="Advert type with the title %s cannot be found!";
+    public static final String ADVERT_TYPE_HAS_ASSOCIATED_ADVERTS_ERROR = "Cannot delete Advert Type as it has associated adverts.";
 
     //  TOUR REQUEST:
     public static final String TOUR_REQUEST_GENERAL_NOT_FOUND_ERROR="Tour request cannot found!";
@@ -104,8 +106,7 @@ public class ErrorMessages {
     // OTHER ERRORS:
     public static final String SLUG_DUPLICATE_ERROR = "Slug with %s id is already in use!";
     public static final String BUILT_IN_IMMUTABLE_ERROR = "Built-in adverts cannot be deleted or updated!";
-
-
+    public static final String GENERIC_ERROR = "Something went wrong!";
 
 
 

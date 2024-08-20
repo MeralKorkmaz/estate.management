@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AdvertRepository extends JpaRepository<Advert, Long> {
 
+    boolean existsByAdvertTypeId(Long advertTypeId);
+
 }
