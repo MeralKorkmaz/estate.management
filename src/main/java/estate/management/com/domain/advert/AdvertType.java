@@ -3,6 +3,7 @@ package estate.management.com.domain.advert;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -23,6 +24,7 @@ public class AdvertType {
 
     @Column(name = "title", nullable = false, length = 30)
     @NotNull(message = "Title cannot be null")
+    @NotEmpty(message = "Title cannot be empty")
     @Size(max = 30, message = "Title must be less then {max} characters")
     private String title;
 

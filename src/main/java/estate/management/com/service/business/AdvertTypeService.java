@@ -1,6 +1,5 @@
 package estate.management.com.service.business;
 
-import estate.management.com.domain.advert.Advert;
 import estate.management.com.domain.advert.AdvertType;
 import estate.management.com.exception.ResourceNotFoundException;
 import estate.management.com.payload.mapper.AdvertTypeMapper;
@@ -14,7 +13,6 @@ import estate.management.com.repository.business.AdvertTypeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -43,6 +41,10 @@ public class AdvertTypeService {
     // Create AdvertType
     public ResponseMessage<AdvertTypeResponse> createAdvertType(
             AdvertTypeRequest advertTypeRequest) {
+        // check if title is null
+        if (advertTypeRequest.getTitle() == null) {
+            throw new IllegalArgumentException("AdvertTypeRequest cannot be null");
+        }
 
         AdvertType advertType =
                 advertTypeMapper.mapAdvertTypeRequestToAdvertType(advertTypeRequest);
@@ -84,7 +86,7 @@ public class AdvertTypeService {
             rollbackFor = {Exception.class} // Rollback for any exeption occuring
     )
     public ResponseMessage<AdvertTypeResponse> deleteAdvertTypeById(Long id) {
-        try {
+
             AdvertType advertType = findAdvertTypeById(id);
 
             //check if related to an advert record
@@ -110,12 +112,7 @@ public class AdvertTypeService {
                     .returnBody(advertTypeResponse)
                     .httpStatus(HttpStatus.OK)
                     .build();
-        } catch (Exception e) {
-            return ResponseMessage.<AdvertTypeResponse>builder()
-                    .message(ErrorMessages.GENERIC_ERROR)
-                    .httpStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .build();
-        }
+
     }
 
 

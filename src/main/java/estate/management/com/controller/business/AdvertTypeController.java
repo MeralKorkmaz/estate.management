@@ -6,6 +6,7 @@ import estate.management.com.payload.response.ResponseMessage;
 import estate.management.com.service.business.AdvertTypeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@Validated
 public class AdvertTypeController {
 
     private final AdvertTypeService advertTypeService;
@@ -33,7 +35,7 @@ public class AdvertTypeController {
 
     //Create AdvertType
     @PostMapping("/advert-types")
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'MANAGER')")
+    //@PreAuthorize("hasAnyAuthority('ADMIN', 'MANAGER')")
     public ResponseMessage<AdvertTypeResponse> createAdvertType(
             @RequestBody @Valid AdvertTypeRequest advertTypeRequest) {
         return advertTypeService.createAdvertType(advertTypeRequest);
@@ -49,7 +51,7 @@ public class AdvertTypeController {
 
     //Delete advertType
     @DeleteMapping("/advert-types/{id}")
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'MANAGER')")
+    //@PreAuthorize("hasAnyAuthority('ADMIN', 'MANAGER')")
     public ResponseMessage<AdvertTypeResponse> deleteAdvertType(@PathVariable Long id) {
         return advertTypeService.deleteAdvertTypeById(id);
     }
