@@ -31,24 +31,7 @@ public class CategoryPropertyValue {
     @JoinColumn(name = "category_property_key_id", nullable = false)
     private CategoryPropertyKey categoryPropertyKey;
 
-        public Long getId() {
-                return id;
-        }
-        public void setId(Long id) {
-                this.id = id;
-        }
-        public String getValue() {
-                return value;
-        }
-        public void setValue(String value) {
-                this.value = value;
-        }
-        public int getAdvertId() {
-                return advertId;
-        }
-        public void setAdvertId(int advertId) {
-                this.advertId = advertId;
-        }
+
         public CategoryPropertyKey getCategoryPropertyKey() {
                 return categoryPropertyKey;
         }

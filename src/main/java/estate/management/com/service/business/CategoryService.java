@@ -11,7 +11,9 @@ import estate.management.com.payload.request.CategoryPropertyKeyRequest;
 import estate.management.com.payload.request.CategoryPropertyValueRequest;
 import estate.management.com.payload.request.CategoryRequest;
 import estate.management.com.payload.response.ResponseMessage;
+import estate.management.com.payload.response.business.CategoryPropertyKeyResponse;
 import estate.management.com.payload.response.business.CategoryResponse;
+import estate.management.com.repository.CategoryPropertyKeyRepository;
 import estate.management.com.repository.CategoryRepository;
 import estate.management.com.repository.business.AdvertRepository;
 import estate.management.com.service.helper.PageableHelper;
@@ -20,12 +22,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,7 +37,7 @@ import java.util.stream.Collectors;
 public class CategoryService {
     @Autowired
     private final CategoryRepository categoryRepository;
-//    private final CategoryPropertyKeyRepository categoryPropertyKeyRepository;
+   // private final CategoryPropertyKeyRepository categoryPropertyKeyRepository;
 //    private final CategoryPropertyValueRepository categoryPropertyValueRepository;
     private final AdvertRepository advertTypeRepository;
     private final CategoryMapper categoryMapper;
@@ -50,12 +54,19 @@ public class CategoryService {
         }
     }
 
-    public List<CategoryResponse> getAllCategoriesByTitle(String title) {
-        return categoryRepository.findByTitleContainingIgnoreCase(title)
-                .stream()
+    public List<CategoryResponse> findByTitleContainingIgnoreCaseAndIsActive(String title, Pageable pageable) {
+        Page<Category> categoryPage = categoryRepository.findByTitleContainingIgnoreCaseAndIsActive(title, true, pageable);
+
+        if (categoryPage.isEmpty()) {
+            throw new ResourceNotFoundException(
+                    String.format("No categories found with title '%s'", title));
+        }
+
+        return categoryPage.stream()
                 .map(categoryMapper::mapCategoryToCategoryResponse)
                 .collect(Collectors.toList());
     }
+
 
 
     public CategoryResponse findCategoryById(Long id) {
@@ -75,15 +86,16 @@ public class CategoryService {
         category.setIsActive(categoryRequest.isActive());
 
             if (categoryRequest.getCategoryPropertyKey() != null) {
-                for (CategoryPropertyKeyRequest keys : categoryRequest.getCategoryPropertyKey()) {
+                for (CategoryPropertyKey keys : categoryRequest.getCategoryPropertyKey()) {
                     CategoryPropertyKey propertyKey = new CategoryPropertyKey();
                     propertyKey.setName(keys.getName());
                     propertyKey.setBuilt_in(false);
+                    propertyKey.setCategoryPropertyValue(keys.getCategoryPropertyValue());
                     propertyKey.setCategory(category);
 
                     List<CategoryPropertyValue> propertyValues = new ArrayList<>();
                     if (keys.getCategoryPropertyValue() != null) {
-                        for (CategoryPropertyValueRequest valueObj : keys.getCategoryPropertyValue()) {
+                        for (CategoryPropertyValue valueObj : keys.getCategoryPropertyValue()) {
                             CategoryPropertyValue propertyValue = new CategoryPropertyValue();
                             propertyValue.setValue(valueObj.getValue());
                             propertyValue.setAdvertId(valueObj.getAdvertId());
@@ -142,5 +154,20 @@ public class CategoryService {
                 .status(HttpStatus.OK)
                 .build();
     }
+
+
+    public List<CategoryPropertyKeyResponse> getPropertyKeyOfCategory(Long categoryId) {
+        Optional<Category> propertykeys = categoryRepository.findCategoryById(categoryId);
+        if (propertykeys.isPresent()) {
+            Category categorykeys = propertykeys.get();
+            return categorykeys.getCategoryPropertyKey().stream()
+                    .map(categoryMapper::mapCategoryPropertyKeyToCategoryPropertyKeyResponse)
+                    .collect(Collectors.toList());
+
+        }
+        return new ArrayList<>();
+
+    }
+
 
 }

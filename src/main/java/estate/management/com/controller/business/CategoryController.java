@@ -1,10 +1,13 @@
 package estate.management.com.controller.business;
+import estate.management.com.domain.category.CategoryPropertyKey;
 import estate.management.com.payload.request.CategoryRequest;
 import estate.management.com.payload.response.ResponseMessage;
+import estate.management.com.payload.response.business.CategoryPropertyKeyResponse;
 import estate.management.com.payload.response.business.CategoryResponse;
 import estate.management.com.service.business.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -32,9 +35,11 @@ public class CategoryController {
     //C02- Endpoint to fetch all categories with optional title filtering and pagination
     @GetMapping("/title")
     @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")
-    public List<CategoryResponse> getAllCategoriesByTitle(@RequestParam(name="title") String title){
-        return categoryService.getAllCategoriesByTitle(title);
-
+    public ResponseEntity<List<CategoryResponse>> findByTitleContainingIgnoreCaseAndIsActive(
+            @RequestParam String title,
+            Pageable pageable) {
+        List<CategoryResponse> categoryResponses = categoryService.findByTitleContainingIgnoreCaseAndIsActive(title, pageable);
+        return ResponseEntity.ok(categoryResponses);
     }
 
     //C03- Endpoint to fetch a single category by its ID
@@ -47,8 +52,8 @@ public class CategoryController {
 
     @PostMapping("/create")
     @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")//cannot see created values on Postman.
-    public ResponseEntity<CategoryResponse> createCategory(@RequestBody CategoryRequest baseCategoryRequest) {
-        CategoryResponse createdCategory = categoryService.createCategory(baseCategoryRequest);
+    public ResponseEntity<CategoryResponse> createCategory(@RequestBody CategoryRequest categoryRequest) {
+        CategoryResponse createdCategory = categoryService.createCategory(categoryRequest);
         return new ResponseEntity<>(createdCategory, HttpStatus.CREATED);
     }
     //C05 save
@@ -69,5 +74,19 @@ public class CategoryController {
         ResponseMessage response = categoryService.deleteById(id);
         return new ResponseEntity<>(response, response.getStatus());
     }
+    //C07 Get property key of a category
+    @GetMapping("/{id}/properties")
+    @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")
+    public ResponseEntity<List<CategoryPropertyKeyResponse>> getPropertyKeyOfCategory(@PathVariable Long id) {
+        List<CategoryPropertyKeyResponse> keysOfCategory = categoryService.getPropertyKeyOfCategory(id);
+        if (keysOfCategory.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(keysOfCategory);
+        }
+    }
+
+
+
 
 }

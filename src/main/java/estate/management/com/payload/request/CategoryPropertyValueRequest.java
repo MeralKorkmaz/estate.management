@@ -3,14 +3,13 @@ import estate.management.com.domain.category.CategoryPropertyKey;
 import jdk.jfr.Category;
 import lombok.*;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class CategoryPropertyValueRequest {
-    private Long id;
     private String value;
     private int advertId;
-    private CategoryPropertyKey categoryPropertyKey;
 
 
 

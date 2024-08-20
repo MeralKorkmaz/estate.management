@@ -6,13 +6,13 @@ import lombok.*;
 import java.util.List;
 
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class CategoryPropertyKeyRequest {
-    private Long id;
     private String name;
     private Boolean built_in = false;
     private Category category;
-    private List<CategoryPropertyValueRequest> categoryPropertyValue;
+    private List<CategoryPropertyValue> categoryPropertyValue;
 }

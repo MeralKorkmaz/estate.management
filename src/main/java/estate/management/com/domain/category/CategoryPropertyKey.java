@@ -15,7 +15,6 @@ import java.util.List;
 @Builder(toBuilder = true)
 @Getter
 @Setter
-
 @Entity
 @Table(name = "category_property_keys")
 public class CategoryPropertyKey {
@@ -45,43 +44,14 @@ public class CategoryPropertyKey {
         return categoryPropertyValue;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Boolean getBuilt_in() {
-        return built_in;
-    }
-
-    public void setBuilt_in(Boolean built_in) {
-        this.built_in = built_in;
-    }
-
-    public void setCategoryPropertyValue(List<CategoryPropertyValue> categoryPropertyValue) {
-        this.categoryPropertyValue = categoryPropertyValue;
-
-    }
 
 
-    public Boolean isBuilt_in() {return built_in;
-    }
+//    public void addCategoryPropertyValue(CategoryPropertyValue propertyValues) {
+//        propertyValues.setCategoryPropertyKey(this);
+//        categoryPropertyValue.add(propertyValues);
+//    }
 
-    public void addCategoryPropertyValue(CategoryPropertyValue propertyValues) {
-        propertyValues.setCategoryPropertyKey(this);
-        categoryPropertyValue.add(propertyValues);
-    }
+
 }
 
 

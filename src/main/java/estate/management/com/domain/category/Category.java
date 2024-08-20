@@ -11,12 +11,12 @@ import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
+    @Data
+    @Getter
+    @Setter
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder(toBuilder = true)
-    @Getter
-    @Setter
     @Entity
     @Table(name = "category")
     public class Category {
@@ -69,100 +69,16 @@ import java.util.List;
         }
 
 
-        public List<CategoryPropertyKey> getCategoryPropertyKey() {
-            return categoryPropertyKey;
-        }
-
-        public void setCategoryPropertyKey(List<CategoryPropertyKey> categoryPropertyKey) {
-            this.categoryPropertyKey = categoryPropertyKey;
-        }
 
         public void addCategoryPropertyKey(CategoryPropertyKey key) {
             key.setCategory(this);
             this.categoryPropertyKey.add(key);
         }
 
-        public boolean isActive() {
-            return isActive;
-        }
 
         public void setIsActive(boolean isActive) {
             this.isActive=isActive;
         }
-
-        public Long getId() {
-            return id;
-        }
-
-        public void setId(Long id) {
-            this.id = id;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
-        }
-
-        public String getIcon() {
-            return icon;
-        }
-
-        public void setIcon(String icon) {
-            this.icon = icon;
-        }
-
-        public Boolean getBuilt_in() {
-            return built_in;
-        }
-
-        public void setBuilt_in(Boolean built_in) {
-            this.built_in = built_in;
-        }
-
-        public int getSeq() {
-            return seq;
-        }
-
-        public void setSeq(int seq) {
-            this.seq = seq;
-        }
-
-        public String getSlug() {
-            return slug;
-        }
-
-        public void setSlug(String slug) {
-            this.slug = slug;
-        }
-
-        public LocalDateTime getCreateAt() {
-            return createAt;
-        }
-
-        public void setCreateAt(LocalDateTime createAt) {
-            this.createAt = createAt;
-        }
-
-        public LocalDateTime getUpdateAt() {
-            return updateAt;
-        }
-
-        public void setUpdateAt(LocalDateTime updateAt) {
-            this.updateAt = updateAt;
-        }
-
-        public TourRequest getTourRequest() {
-            return tourRequest;
-        }
-
-        public void setTourRequest(TourRequest tourRequest) {
-            this.tourRequest = tourRequest;
-        }
-
-
 
     }
 

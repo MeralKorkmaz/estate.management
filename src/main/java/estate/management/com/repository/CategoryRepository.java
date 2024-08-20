@@ -25,7 +25,8 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
     @Query("SELECT c FROM Category c WHERE c.id = :id")
     Optional<Category> findCategoryById(@Param("id") Long id);
 
-    //Optional<Category> findCategoryById(Long id);
     void deleteById(Long id);
+
+
 }
 
