@@ -1,4 +1,4 @@
-package estate.management.com.payload.request;
+package estate.management.com.payload.request.concrete.advert;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;

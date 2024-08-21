@@ -1,12 +1,17 @@
 package estate.management.com.repository.business;
 
+import estate.management.com.domain.administrative.City;
 import estate.management.com.domain.advert.Advert;
+import estate.management.com.payload.response.concrete.CityResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface AdvertRepository extends JpaRepository<Advert, Long> {
@@ -29,5 +34,16 @@ public interface AdvertRepository extends JpaRepository<Advert, Long> {
                                        @Param("location") String location,
                                        @Param("status") Integer status,
                                        Pageable pageable);
+
+
+
+
+
+
+
+    @Query("SELECT new estate.management.com.payload.response.concrete.CityResponse(c.name, COUNT(c)) " +
+            "FROM City c WHERE c.id = :cityId GROUP BY c.name")
+    List<CityResponse> findCityCountsByCityId(@Param("cityId") Long cityId);
+
 
 }

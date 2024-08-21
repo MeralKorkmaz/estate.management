@@ -1,10 +1,13 @@
 package estate.management.com.domain.administrative;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import estate.management.com.domain.advert.Advert;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Getter
 @Setter
@@ -28,6 +31,10 @@ public class City {
     @Column(name = "country_id",nullable = false)
     @NotNull(message = "countryId cannot be null")
     private int countryId;
+
+    @OneToMany(mappedBy = "city")
+    @JsonIgnore
+    private List<Advert> advert;
 
 
 }

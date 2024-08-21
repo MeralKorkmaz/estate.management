@@ -2,6 +2,7 @@ package estate.management.com.domain.advert;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import estate.management.com.domain.administrative.City;
 import lombok.*;
 
 import javax.persistence.*;
@@ -96,9 +97,9 @@ public class Advert {
     @NotNull(message = "countryId cannot be null" )
     private int countryId;
 
-    @Column(name = "city_id", nullable = false)
-    @NotNull(message = "cityId cannot be null" )
-    private int cityId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "city_id")
+    private City city;
 
     @Column(name = "discrict_id", nullable = false)
     @NotNull(message = "disctrictId cannot be null" )
@@ -132,7 +133,7 @@ public class Advert {
     }
 
     /*
-    Methode to generate and prePersist/preUpdate slug field from title automatically.
+    Method to generate and prePersist/preUpdate slug field from title automatically.
     Creation time prePersist to current time if not set manually.
     PreUpdate updatedAt field.
     */

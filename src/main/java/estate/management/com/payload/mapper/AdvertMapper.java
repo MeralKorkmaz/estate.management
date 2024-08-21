@@ -1,10 +1,14 @@
 package estate.management.com.payload.mapper;
 
+import estate.management.com.domain.administrative.City;
 import estate.management.com.domain.advert.Advert;
-import estate.management.com.payload.request.AdvertRequest;
-import estate.management.com.payload.response.AdvertResponse;
+import estate.management.com.payload.request.concrete.advert.AdvertRequest;
+import estate.management.com.payload.response.concrete.CityResponse;
+import estate.management.com.payload.response.concrete.advert.AdvertResponse;
+import estate.management.com.payload.response.concrete.advert.AdvertResponseForCity;
 import lombok.Data;
 import org.springframework.stereotype.Component;
+import java.util.List;
 
 @Data
 @Component
@@ -16,7 +20,6 @@ public class AdvertMapper {
                 .advertTypeId(advert.getAdvertTypeId())
                 .id(advert.getId())
                 .price(advert.getPrice())
-                .cityId(advert.getCityId())
                 .slug(advert.getSlug())
                 .countryId(advert.getCountryId())
                 .districtId(advert.getDistrictId())
@@ -35,7 +38,7 @@ public class AdvertMapper {
                 .advertTypeId(advertRequest.getAdvertTypeId())
                 .built_in(advertRequest.getBuilt_in())
                 .price(advertRequest.getPrice())
-                .cityId(advertRequest.getCityId())
+
                 .slug(advertRequest.getSlug())
                 .countryId(advertRequest.getCountryId())
                 .districtId(advertRequest.getDistrictId())
@@ -47,4 +50,17 @@ public class AdvertMapper {
                 .viewCount(advertRequest.getViewCount())
                 .build();
     }
+
+    public CityResponse mapCityToCityResponse(City city) {
+        return CityResponse.builder()
+                .city(city.getName())
+                .build();
+    }
+
+    public AdvertResponseForCity mapCitiesToAdvertCityResponse(List<CityResponse> cityResponses) {
+        return AdvertResponseForCity.builder()
+                .cityResponses(cityResponses.toArray(new CityResponse[0]))
+                .build();
+    }
+
 }
