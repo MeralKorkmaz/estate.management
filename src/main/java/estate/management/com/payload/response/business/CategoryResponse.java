@@ -26,12 +26,11 @@ public class CategoryResponse {
     private Long id;
     private String title;
     private String icon;
-    private Boolean built_in = false;
+    private Boolean built_in;
     private int seq = 0;
     private String slug;
-    private boolean isActive = true;
+    private boolean isActive;
     private LocalDateTime createAt;
     private LocalDateTime updateAt;
     private TourRequest tourRequest;
-    private List<CategoryPropertyKey> categoryPropertyKey;
-}
+    private List<CategoryPropertyKey> categoryPropertyKey;}

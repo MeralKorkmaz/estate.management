@@ -10,6 +10,7 @@ import lombok.*;
 public class CategoryPropertyValueRequest {
     private String value;
     private int advertId;
+    private CategoryPropertyKey categoryPropertyKey;
 
 
 

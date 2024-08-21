@@ -1,8 +1,6 @@
 package estate.management.com.domain.category;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import estate.management.com.domain.TourRequest;
-import estate.management.com.payload.response.business.CategoryPropertyKeyResponse;
 import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -33,6 +31,7 @@ import java.util.List;
         @Size(max = 50, message = "icon must be less then {max} characters")
         private String icon;
         @Column(name = "built_in", nullable = false)
+        @NotNull(message = "Cannot be null, default false")
         private Boolean built_in = false;
         @Column(name = "seq", nullable = false)
         @NotNull(message = "seq cannot be null")
@@ -51,7 +50,6 @@ import java.util.List;
         @Column(name = "updateAt", nullable = true)
         @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
         private LocalDateTime updateAt;
-
         @OneToOne(mappedBy = "category")
         private TourRequest tourRequest;
         @NotNull
@@ -60,26 +58,17 @@ import java.util.List;
         @PrePersist
         private void onCreate() {
             createAt = LocalDateTime.now();
-            updateAt = LocalDateTime.now();
-        }
-
+            updateAt = LocalDateTime.now();}
         @PreUpdate
         private void onUpdate() {
             updateAt = LocalDateTime.now();
         }
 
-
-
-        public void addCategoryPropertyKey(CategoryPropertyKey key) {
-            key.setCategory(this);
-            this.categoryPropertyKey.add(key);
+        public void setIsActive(boolean isActive) { isActive = isActive;
         }
-
-
-        public void setIsActive(boolean isActive) {
-            this.isActive=isActive;
-        }
-
     }
+
+
+
 
 

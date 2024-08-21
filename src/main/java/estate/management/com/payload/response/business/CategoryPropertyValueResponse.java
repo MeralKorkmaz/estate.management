@@ -17,4 +17,4 @@ public class CategoryPropertyValueResponse {
     private Long id;
     private String value;
     private int advertId;
-}
+    private CategoryPropertyKey categoryPropertyKey;}

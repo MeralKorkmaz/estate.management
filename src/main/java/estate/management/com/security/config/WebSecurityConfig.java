@@ -106,7 +106,7 @@ public class WebSecurityConfig {
             "/cities",
             "/districts",
             "/users/login",
-            "/users/register"
+            "/users/register",
     };
 
 

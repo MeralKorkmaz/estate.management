@@ -19,9 +19,6 @@ import java.util.List;
 public class CategoryPropertyKeyResponse {
     private Long id;
     private String name;
-    private Boolean built_in = false;
+    private Boolean built_in;
     private Category category;
-    private List<CategoryPropertyValue> categoryPropertyValue;
-
-
-}
+    private List<CategoryPropertyValue> categoryPropertyValue;}

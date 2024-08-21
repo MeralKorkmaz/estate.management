@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 public class CategoryPropertyKeyRequest {
     private String name;
-    private Boolean built_in = false;
+    private Boolean built_in;
     private Category category;
     private List<CategoryPropertyValue> categoryPropertyValue;
 }
