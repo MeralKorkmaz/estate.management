@@ -16,7 +16,7 @@ public class ReportController {
     private final ReportService reportService;
 
     @GetMapping("/report")
-    //@PreAuthorize("hasAnyAuthority('ADMIN', 'MANAGER')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'MANAGER')")
     public ReportResponse getStatistics() {
         return reportService.getStatistics();
     }
