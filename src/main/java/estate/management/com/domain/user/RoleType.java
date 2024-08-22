@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 
 
-public enum RoleName {
+public enum RoleType {
 
 
     ADMIN("Admin"),
@@ -14,7 +14,7 @@ public enum RoleName {
     CUSTOMER("Customer");
 
     public final String name;
-    RoleName(String name) {
+    RoleType(String name) {
         this.name = name;
     }
 

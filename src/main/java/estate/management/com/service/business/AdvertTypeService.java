@@ -46,8 +46,8 @@ public class AdvertTypeService {
 
         return ResponseMessage.<AdvertTypeResponse>builder()
                 .message(SuccessMessages.ADVERT_TYPE_CREATED_SUCCESS)
-                .returnBody(advertTypeMapper.mapAdvertTypeToAdvertTypeResponse(savedAdvertType))
-                .httpStatus(HttpStatus.CREATED)
+                .object(advertTypeMapper.mapAdvertTypeToAdvertTypeResponse(savedAdvertType))
+                .status(HttpStatus.CREATED)
                 .build();
 
     }
@@ -68,8 +68,8 @@ public class AdvertTypeService {
         //Returning response message
         return ResponseMessage.<AdvertTypeResponse>builder()
                 .message(SuccessMessages.ADVERT_TYPE_UPDATED_SUCCESS)
-                .returnBody(advertTypeMapper.mapAdvertTypeToAdvertTypeResponse(updatedAdvertType))
-                .httpStatus(HttpStatus.OK)
+                .object(advertTypeMapper.mapAdvertTypeToAdvertTypeResponse(updatedAdvertType))
+                .status(HttpStatus.OK)
                 .build();
     }
 

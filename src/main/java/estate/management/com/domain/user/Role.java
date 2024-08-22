@@ -1,11 +1,10 @@
 package estate.management.com.domain.user;
 
-import javax.persistence.*;
 
 import lombok.*;
 
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,12 +19,11 @@ public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Setter(AccessLevel.NONE)
     private Long id;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     @NotNull(message = "roleName cannot be null")
-    private RoleName roleName;
+    private RoleType roleType;
 
 }

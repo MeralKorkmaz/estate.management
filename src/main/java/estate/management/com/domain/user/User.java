@@ -3,6 +3,8 @@ package estate.management.com.domain.user;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 
@@ -24,7 +26,6 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Setter(AccessLevel.NONE)
     private Long id;
 
     @Column(name = "firstName", nullable = false, length = 30)
@@ -69,8 +70,9 @@ public class User {
     private LocalDateTime updateAt;
 
 
-    @OneToOne(mappedBy = "user")
-    private UserRole userRoles;
+    @OneToOne
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private UserRole userRole;
 
 
 
