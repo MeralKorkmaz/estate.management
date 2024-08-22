@@ -7,10 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.validation.constraints.NotNull;
-import java.lang.reflect.Array;
-import java.util.List;
+
 
 @Data
 @Builder
@@ -18,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 public class AdvertResponseForCity {
 
- private  CityResponse[] cityResponses;
+    private  CityResponse[] cityResponses;
 
 
 }

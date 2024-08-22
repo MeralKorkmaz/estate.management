@@ -1,6 +1,7 @@
 package estate.management.com.controller.business;
 
 import estate.management.com.domain.administrative.Country;
+import estate.management.com.payload.response.CountryResponse;
 import estate.management.com.service.business.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +20,7 @@ public class CountryController {
     }
 
     @GetMapping("/countries")
-    public List<Country> getAllCountries() {
+    public List<CountryResponse> getAllCountries() {
         return countryService.getAllCountries();
     }
 }
