@@ -1,19 +1,13 @@
 package estate.management.com.payload.response.business;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import estate.management.com.domain.TourRequest;
 import estate.management.com.domain.category.CategoryPropertyKey;
-import estate.management.com.payload.response.abstracts.BaseCategoryResponse;
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Getter
@@ -33,4 +27,4 @@ public class CategoryResponse {
     private LocalDateTime createAt;
     private LocalDateTime updateAt;
     private TourRequest tourRequest;
-    private List<CategoryPropertyKey> categoryPropertyKey;}
+    private List<CategoryPropertyKeyResponse> categoryPropertyKey;}

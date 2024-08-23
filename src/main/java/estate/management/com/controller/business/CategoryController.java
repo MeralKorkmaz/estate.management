@@ -1,8 +1,6 @@
 package estate.management.com.controller.business;
-import estate.management.com.payload.request.CategoryPropertyKeyRequest;
 import estate.management.com.payload.request.CategoryRequest;
 import estate.management.com.payload.response.ResponseMessage;
-import estate.management.com.payload.response.business.CategoryPropertyKeyResponse;
 import estate.management.com.payload.response.business.CategoryResponse;
 import estate.management.com.service.business.CategoryService;
 import lombok.RequiredArgsConstructor;
@@ -47,13 +45,13 @@ public class CategoryController {
     }
     // C04-Endpoint to create a new category
     @PostMapping("/create")
-    @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")//cannot see created values on Postman.
-    public ResponseEntity<CategoryResponse> createCategory(@RequestBody CategoryRequest categoryRequest) {
-        CategoryResponse createdCategory = categoryService.createCategory(categoryRequest);
-        return new ResponseEntity<>(createdCategory, HttpStatus.CREATED);
+    @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")
+    public ResponseEntity<ResponseMessage<CategoryResponse>> createCategory(@RequestBody CategoryRequest categoryRequest) {
+        ResponseMessage<CategoryResponse> createdCategoryResponse = categoryService.createCategory(categoryRequest);
+        return new ResponseEntity<>(createdCategoryResponse, HttpStatus.CREATED);
     }
  //C05 Update&Save By Id
-    @PutMapping("/update/{id}")//cannot see updated value on postman
+    @PutMapping("/update/{id}")
     @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")
     public ResponseMessage<CategoryResponse> updateCategory(@PathVariable Long id, @RequestBody CategoryRequest categoryRequest) {
             ResponseMessage<CategoryResponse> categoryResponse = categoryService.updateCategory(id, categoryRequest);
@@ -66,22 +64,14 @@ public class CategoryController {
         ResponseMessage response = categoryService.deleteById(id);
         return new ResponseEntity<>(response, response.getStatus());
     }
-    //C07 Get property key of a category
-    @GetMapping("/{id}/properties")
-    @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")
-    public ResponseEntity<List<CategoryPropertyKeyResponse>> getCategoryPropertyKeys(@PathVariable Long id) {
-        List<CategoryPropertyKeyResponse> propertyKeys = categoryService.findCategoryPropertyKeys(id);
-        return ResponseEntity.ok(propertyKeys);
+    //C011
+    @GetMapping("/slug/{slug}")
+    @PreAuthorize("permitAll()")  // Allows all users to access this endpoint
+    public ResponseEntity<CategoryResponse> getCategoryBySlug(@PathVariable String slug) {
+        CategoryResponse category = categoryService.getCategoryBySlug(slug);
+        return ResponseEntity.ok(category);
     }
-   //C08 create properties of a category
-   @PostMapping("/{id}/properties")
-   @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")
-    public ResponseEntity<CategoryPropertyKeyResponse> createCategoryPropertyKey(
-        @PathVariable Long id,
-        @RequestBody CategoryPropertyKeyRequest request) {
-    CategoryPropertyKeyResponse response = categoryService.createCategoryPropertyKey(id, request);
-    return ResponseEntity.status(HttpStatus.CREATED).body(response);
-}
+
 
 }
 

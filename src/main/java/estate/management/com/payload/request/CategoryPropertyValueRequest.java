@@ -1,17 +1,24 @@
 package estate.management.com.payload.request;
-import estate.management.com.domain.category.CategoryPropertyKey;
-import jdk.jfr.Category;
 import lombok.*;
-
-@Getter
-@Setter
+import javax.validation.constraints.NotNull;
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class CategoryPropertyValueRequest {
+    private Long id;
+    @NotNull
     private String value;
-    private int advertId;
-    private CategoryPropertyKey categoryPropertyKey;
+    @NotNull
+    private Long advertId;
+    private Long categoryPropertyKey;
 
 
+    public String getValue() { return value;
+    }
 
+    public Long getAdvertId() {return advertId;
+    }
+
+    public Long getId() {return id;
+    }
 }

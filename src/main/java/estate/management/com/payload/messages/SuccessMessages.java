@@ -10,8 +10,6 @@ public class SuccessMessages {
     public static final String CUSTOMER_REGISTER_SUCCESS = "Customer is  registered Successfully" ;
 
 
-    public static final String CATEGORY_UPDATE = "Category Updated Successfully" ;
-    public static String CATEGORY_DELETE="Category Deleted Successfully";
 
 
 }

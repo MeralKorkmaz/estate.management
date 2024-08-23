@@ -1,11 +1,7 @@
 package estate.management.com.payload.request;
-import estate.management.com.domain.category.Category;
-import estate.management.com.domain.category.CategoryPropertyValue;
 import lombok.*;
-
+import java.util.ArrayList;
 import java.util.List;
-
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -13,6 +9,10 @@ import java.util.List;
 public class CategoryPropertyKeyRequest {
     private String name;
     private Boolean built_in;
-    private Category category;
-    private List<CategoryPropertyValue> categoryPropertyValue;
+    private CategoryRequest category;
+    private List<CategoryPropertyValueRequest> categoryPropertyValue = new ArrayList<>();
+    public List<CategoryPropertyValueRequest> getCategoryPropertyValue() {
+        return categoryPropertyValue;
+    }
+
 }

@@ -17,5 +17,7 @@ public class ErrorMessages {
     public static final String ROLE_NOT_FOUND = "There is no role like that , check the database " ;
 
 
-    public static final String CATEGORY_NOT_FOUND_MESSAGE = "Error: Category with id %s not found" ;
+
+
+
 }

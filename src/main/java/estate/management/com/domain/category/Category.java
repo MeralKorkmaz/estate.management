@@ -1,5 +1,7 @@
 package estate.management.com.domain.category;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import estate.management.com.domain.TourRequest;
 import lombok.*;
 import javax.persistence.*;
@@ -10,15 +12,12 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
     @Data
-    @Getter
-    @Setter
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder(toBuilder = true)
     @Entity
     @Table(name = "category")
     public class Category {
-
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
         private Long id;
@@ -53,7 +52,7 @@ import java.util.List;
         @OneToOne(mappedBy = "category")
         private TourRequest tourRequest;
         @NotNull
-        @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+        @OneToMany(mappedBy = "category", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY, orphanRemoval = true)
         private List<CategoryPropertyKey> categoryPropertyKey = new ArrayList<>();
         @PrePersist
         private void onCreate() {
@@ -64,8 +63,14 @@ import java.util.List;
             updateAt = LocalDateTime.now();
         }
 
-        public void setIsActive(boolean isActive) { isActive = isActive;
+        public void setIsActive(boolean isActive) {
+            this.isActive = isActive;
         }
+        @JsonCreator
+        public Category(@JsonProperty("id") Long id) {
+            this.id = id;
+        }
+
     }
 
 

@@ -1,11 +1,9 @@
 package estate.management.com.payload.request;
 import estate.management.com.domain.category.CategoryPropertyKey;
 import lombok.*;
-
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.util.*;
-
 @Getter
 @Setter
 @AllArgsConstructor
@@ -24,7 +22,6 @@ public class CategoryRequest {
     private String slug;
     private boolean isActive;
     private List<CategoryPropertyKey> categoryPropertyKey = new ArrayList<>();
-
-    public boolean getIsActive() { return isActive;
+    public boolean isActive() { return isActive;
     }
 }

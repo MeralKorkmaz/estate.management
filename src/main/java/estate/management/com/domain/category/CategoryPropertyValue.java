@@ -1,6 +1,7 @@
 package estate.management.com.domain.category;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import estate.management.com.domain.advert.Advert;
 import estate.management.com.payload.request.CategoryPropertyValueRequest;
 import lombok.*;
 
@@ -24,11 +25,11 @@ public class CategoryPropertyValue {
         @NotNull(message = "value cannot be null")
         @Size(max = 100, message = "value must be less than {max} characters")
         private String value;
-        @NotNull
+        @NotNull(message="advertId cannot be null")
         @Column(name = "advert_id", nullable = false)
-        private int advertId;
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "category_property_key_id", nullable = false)
-    @JsonIgnore
-    private CategoryPropertyKey categoryPropertyKey;
+        private Long advertId;
+       @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+       @JoinColumn(name = "category_property_key_id", nullable = false)
+       @JsonIgnore
+       private CategoryPropertyKey categoryPropertyKey;
 }
