@@ -2,6 +2,7 @@ package estate.management.com.domain.advert;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import estate.management.com.domain.category.Category;
 import lombok.*;
 
 import javax.persistence.*;
@@ -110,7 +111,7 @@ public class Advert {
 
     @Column(name = "category_id", nullable = false)
     @NotNull(message = "categoryId cannot be null" )
-    private int categoryId;
+    private Long categoryId;
 
 
     // ------ METHODS --------

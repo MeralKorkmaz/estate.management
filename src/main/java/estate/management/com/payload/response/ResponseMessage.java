@@ -1,22 +1,21 @@
 package estate.management.com.payload.response;
 
-
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.http.HttpStatus;
 
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
-@Builder
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class ResponseMessage<T> {
+@AllArgsConstructor
+@Builder(toBuilder = true)
+@JsonInclude(JsonInclude.Include.NON_NULL) //null degerler Json'da gorulmeyecek.
+
+public class ResponseMessage <T>{
 
     private T object;
     private String message;
     private HttpStatus status;
+
 
 }

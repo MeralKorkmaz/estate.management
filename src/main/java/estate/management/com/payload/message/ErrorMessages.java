@@ -57,7 +57,7 @@ public class ErrorMessages {
     //  CATEGORY:
     public static final String CATEGORY_GENERAL_NOT_FOUND_ERROR="Category cannot found!";
     public static final String CATEGORY_ID_NOT_FOUND_ERROR="Category with %s id cannot found!";
-    public static final String CATEGORY_CATEGORY_PROPERTY_KEY_ID_NOT_FOUND_ERROR="Category with %s category property key id cannot found!";
+    public static final String CATEGORY_PROPERTY_KEY_ID_NOT_FOUND_ERROR="Category with %s category property key id cannot found!";
     public static final String CATEGORY_SLUG_NOT_FOUND_ERROR="Category with %s slug cannot found!";
 
     // ADVERT TYPE:

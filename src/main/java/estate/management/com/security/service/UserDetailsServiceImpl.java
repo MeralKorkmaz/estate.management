@@ -1,5 +1,6 @@
 package estate.management.com.security.service;
 
+
 import estate.management.com.domain.user.User;
 import estate.management.com.repository.UserRepository;
 import lombok.AllArgsConstructor;

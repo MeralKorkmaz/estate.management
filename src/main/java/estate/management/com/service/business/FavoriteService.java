@@ -38,17 +38,8 @@ public class FavoriteService {
 
 
     // TODO DO we need more logic? A question for ensure or etc?
-    // --> Commented out for Bug Fixing, Favorite does not have any Username only userId. Method below added only temporary.
-    // TODO please check if code is doing required work.
-   /*
-   Code prevents application to work.
-        public void deleteAllUserFavorites(HttpServletRequest httpServletRequest) {
-        String username = (String) httpServletRequest.getAttribute("username");
-        favoriteRepository.deleteByUsername(username);
-     }*/
-
-    public void deleteAllUserFavorites(HttpServletRequest httpServletRequest) {
-        int userId = (int) httpServletRequest.getAttribute("userId");
-        favoriteRepository.deleteAllByUserId(userId);
-    }
+//    public void deleteAllUserFavorites(HttpServletRequest httpServletRequest) {
+//        String username = (String) httpServletRequest.getAttribute("username");
+//        favoriteRepository.deleteByUsername(username);
+//     }
 }

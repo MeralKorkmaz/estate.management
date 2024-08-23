@@ -2,6 +2,7 @@ package estate.management.com.domain.user;
 
 
 //TODO is it entity since there is not PK in the documentation
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,7 +24,7 @@ public class UserRole {
     private RoleType roleType;
 
 
-    String roleName;
+     String roleName;
 
 
 

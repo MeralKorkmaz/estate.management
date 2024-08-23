@@ -58,6 +58,8 @@ public class SuccessMessages {
     public static final String CATEGORY_FOUND_SUCCESS = "Category with %s id found successfully!";
     public static final String CATEGORY_PROPERTY_FOUND_SUCCESS = "Category Property Key with %s id found successfully!";
     public static final String CATEGORY_SLUG_FOUND_SUCCESS = "Category with %s slug found successfully!";
+    public static final String CATEGORY_PROPERTY_KEY_UPDATE = "Category keys updated successfully!";
+
 
     // SUCCESS MESSAGES FOR ADVERT TYPES:
     public static final String ADVERT_TYPE_CREATED_SUCCESS = "Advert type created successfully!";

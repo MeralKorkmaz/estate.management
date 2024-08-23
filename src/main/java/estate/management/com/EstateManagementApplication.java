@@ -2,16 +2,13 @@ package estate.management.com;
 
 import estate.management.com.domain.user.RoleType;
 import estate.management.com.domain.user.UserRole;
-
-import estate.management.com.payload.request.user.concretes.UserRequest;
+import estate.management.com.payload.request.UserRequest;
 import estate.management.com.repository.UserRoleRepository;
-
-import estate.management.com.service.user.UserRoleService;
-import estate.management.com.service.user.UserService;
+import estate.management.com.service.UserRoleService;
+import estate.management.com.service.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
 
 @SpringBootApplication
 public class EstateManagementApplication implements CommandLineRunner {
@@ -72,5 +69,3 @@ public class EstateManagementApplication implements CommandLineRunner {
 
 
 }
-
-

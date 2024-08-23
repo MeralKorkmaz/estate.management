@@ -11,7 +11,5 @@ public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
 
 
     // TODO there is not a username check it out again!
-    // void deleteByUsername(String username); // commented out as it prevents application to start.
-    // replaced it only temporary with userId instead of username.
-    void deleteAllByUserId(int userId);
+    //void deleteByUsername(String username);
 }
