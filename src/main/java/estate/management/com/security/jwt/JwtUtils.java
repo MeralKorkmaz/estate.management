@@ -13,38 +13,36 @@ import io.jsonwebtoken.*;
 
 import java.util.Date;
 
+
 @Component
 public class JwtUtils {
+    private static final Logger LOGGER= LoggerFactory.getLogger(JwtUtils.class);
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JwtUtils.class);
-
-    @Value("backendapi.app.jwtSecret")
-    private String JwtSecret;
-    @Value("backendapi.app.jwtExpirationsMs")
-    private String JwtExpirationMs;
+    @Value("${backendapi.app.jwtSecret}")
+    private  String jwtSecret;
+    @Value("${backendapi.app.jwtExpirationsMs}")
+    private long jwtExpirationMs;
 
     public String generateJwtToken(Authentication authentication){
-
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        String token = generateJwtTokenFromEmail(userDetails.getEmail());
+        UserDetailsImpl userDetails= (UserDetailsImpl) authentication.getPrincipal();
+        String token=generateJwtTokenFromEmail(userDetails.getEmail());
         return token;
+
+
     }
 
-
-    public String generateJwtTokenFromEmail(String email){
+    public String generateJwtTokenFromEmail( String email){
         return Jwts.builder()
                 .setSubject(email)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(new Date().getTime()+JwtExpirationMs))
-                .signWith(SignatureAlgorithm.ES512,JwtSecret)
+                .setExpiration(new Date(new Date().getTime()+jwtExpirationMs))
+                .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
-
     }
-
 
     public boolean validateJwtToken(String jwtToken){
         try {
-            Jwts.parser().setSigningKey(JwtSecret).parseClaimsJws(jwtToken);
+            Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(jwtToken);
             return true;
         } catch (ExpiredJwtException e) {
             LOGGER.error("Jwt token is expired : {}",e.getMessage());
@@ -57,16 +55,15 @@ public class JwtUtils {
         } catch (IllegalArgumentException e) {
             LOGGER.error("Jwt token is empty : {}",e.getMessage());
         }
-
         return false;
     }
 
     public String getUserEmailFromJwtToken(String token){
         return Jwts.parser()
-                .setSigningKey(JwtSecret)
+                .setSigningKey(jwtSecret)
                 .parseClaimsJws(token)
                 .getBody()
                 .getSubject();
-
     }
+
 }
