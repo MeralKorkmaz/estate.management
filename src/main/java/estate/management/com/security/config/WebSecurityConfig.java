@@ -108,7 +108,8 @@ public class WebSecurityConfig {
             "/users/login",
             "/users/register",
             "/categories",
-            "/categories/*"
+            "/categories/*",
+            "/categories/slug/**"
     };
 
 
