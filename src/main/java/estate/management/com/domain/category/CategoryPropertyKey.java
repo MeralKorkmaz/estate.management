@@ -37,6 +37,11 @@ public class CategoryPropertyKey {
 
     @Column(name = "category_id")
     private int categoryId;
+
+
+    @OneToMany(mappedBy = "categoryPropertyKey")
+    @JsonIgnore
+    private List<CategoryPropertyValue> categoryPropertyValues;
 }
 
 

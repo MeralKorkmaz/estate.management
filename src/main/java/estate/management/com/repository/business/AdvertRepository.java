@@ -41,9 +41,9 @@ public interface AdvertRepository extends JpaRepository<Advert, Long> {
 
 
 
-    @Query("SELECT new estate.management.com.payload.response.concrete.CityResponse(c.name, COUNT(c)) " +
-            "FROM City c WHERE c.id = :cityId GROUP BY c.name")
-    List<CityResponse> findCityCountsByCityId(@Param("cityId") Long cityId);
+    @Query("SELECT new estate.management.com.payload.response.concrete.CityResponse(a.location, COUNT(a)) " +
+            "FROM Advert a WHERE a.cityId = :cityId GROUP BY a.location")
+    List<CityResponse> findCityCountsByCityId(@Param("cityId") int cityId);
 
 
 }
