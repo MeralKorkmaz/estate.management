@@ -1,3 +1,4 @@
+
 package estate.management.com.domain.category;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -37,8 +38,9 @@ public class CategoryPropertyKey {
 
     @Column(name = "category_id")
     private int categoryId;
+
+
+    @OneToMany(mappedBy = "categoryPropertyKey")
+    @JsonIgnore
+    private List<CategoryPropertyValue> categoryPropertyValues;
 }
-
-
-
-
