@@ -20,7 +20,7 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @RequestMapping("/adverts")
 public class AdvertController {
-
+//hey 
 
     private final AdvertService advertService;
 
