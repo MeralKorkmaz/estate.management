@@ -1,4 +1,4 @@
-package estate.management.com.payload.request.concrete.advert;
+package estate.management.com.payload.request.advert;
 
 import javax.persistence.Column;
 import javax.validation.constraints.NotNull;

@@ -1,4 +1,4 @@
-package estate.management.com.payload.request.concrete;
+package estate.management.com.payload.request;
 
 
 import estate.management.com.payload.request.abstracts.BaseUserRequest;

@@ -1,14 +1,15 @@
 package estate.management.com.controller.business;
 
-import estate.management.com.payload.request.concrete.advert.AdvertRequestForCity;
+import estate.management.com.payload.request.advert.AdvertRequest;
 import estate.management.com.payload.response.concrete.advert.AdvertResponse;
 import estate.management.com.payload.response.concrete.advert.AdvertResponseForCity;
 import estate.management.com.service.business.AdvertService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
@@ -17,6 +18,13 @@ public class AdvertController {
 
 
     private final AdvertService advertService;
+
+    @PostMapping("/save")
+    public ResponseEntity<AdvertResponse> saveAdvert(@Valid @RequestBody AdvertRequest advertRequest){
+
+        return ResponseEntity.ok(advertService.saveAdvert(advertRequest));
+
+    }
 
     @GetMapping("")
     public Page<AdvertResponse> getTheAdvertsByPage(
@@ -36,8 +44,9 @@ public class AdvertController {
     }
 
     @GetMapping("/cities/{cityId}")
-    public ResponseEntity<AdvertResponseForCity> getCities(@PathVariable Long cityId) {
+    public ResponseEntity<AdvertResponseForCity> getCities(@PathVariable int cityId) {
         AdvertResponseForCity response = advertService.getCities(cityId);
         return ResponseEntity.ok(response);
     }
+
 }
