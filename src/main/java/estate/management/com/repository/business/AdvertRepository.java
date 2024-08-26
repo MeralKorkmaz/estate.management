@@ -1,3 +1,4 @@
+
 package estate.management.com.repository.business;
 
 import estate.management.com.domain.administrative.City;
@@ -12,14 +13,11 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
-
 @Repository
 public interface AdvertRepository extends JpaRepository<Advert, Long> {
 
-
     @Query("SELECT a FROM Advert a WHERE " +
             "(:q IS NULL OR (LOWER(a.title) LIKE LOWER(CONCAT('%', :q, '%')) OR LOWER(a.description) LIKE LOWER(CONCAT('%', :q, '%')))) AND " +
-            "(:categoryId IS NULL OR a.categoryId = :categoryId) AND " +
             "(:advertTypeId IS NULL OR a.advertTypeId = :advertTypeId) AND " +
             "(:priceStart IS NULL OR a.price >= :priceStart) AND " +
             "(:priceEnd IS NULL OR a.price <= :priceEnd) AND " +
@@ -27,7 +25,6 @@ public interface AdvertRepository extends JpaRepository<Advert, Long> {
             "(:status IS NULL OR a.status = :status) AND " +
             "a.isActive = true")
     Page<Advert> findAdvertsByCriteria(@Param("q") String q,
-                                       @Param("categoryId") Integer categoryId,
                                        @Param("advertTypeId") Integer advertTypeId,
                                        @Param("priceStart") Double priceStart,
                                        @Param("priceEnd") Double priceEnd,
@@ -35,15 +32,7 @@ public interface AdvertRepository extends JpaRepository<Advert, Long> {
                                        @Param("status") Integer status,
                                        Pageable pageable);
 
-
-
-
-
-
-
-    @Query("SELECT new estate.management.com.payload.response.concrete.CityResponse(c.name, COUNT(c)) " +
-            "FROM City c WHERE c.id = :cityId GROUP BY c.name")
-    List<CityResponse> findCityCountsByCityId(@Param("cityId") Long cityId);
-
-
+    @Query("SELECT new estate.management.com.payload.response.concrete.CityResponse(a.location, COUNT(a)) " +
+            "FROM Advert a WHERE a.cityId = :cityId GROUP BY a.location")
+    List<CityResponse> findCityCountsByCityId(@Param("cityId") int cityId);
 }

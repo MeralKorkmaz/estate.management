@@ -1,3 +1,4 @@
+
 package estate.management.com.domain.category;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -83,5 +84,3 @@ public class Category {
         updateAt = LocalDateTime.now();
     }
 }
-
-
