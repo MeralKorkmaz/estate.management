@@ -1,7 +1,6 @@
 package estate.management.com.controller.business;
 
 import estate.management.com.payload.request.advert.AdvertRequest;
-import estate.management.com.payload.request.concrete.advert.AdvertRequestForCity;
 import estate.management.com.payload.response.ResponseMessage;
 import estate.management.com.payload.response.concrete.advert.AdvertResponse;
 import estate.management.com.payload.response.concrete.advert.AdvertResponseForCity;
