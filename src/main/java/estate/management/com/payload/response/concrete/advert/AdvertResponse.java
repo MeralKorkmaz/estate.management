@@ -1,3 +1,4 @@
+
 package estate.management.com.payload.response.concrete.advert;
 
 import estate.management.com.payload.request.ImageRequest;

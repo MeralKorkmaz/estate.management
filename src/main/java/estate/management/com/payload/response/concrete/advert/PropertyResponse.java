@@ -1,3 +1,4 @@
+
 package estate.management.com.payload.response.concrete.advert;
 
 import lombok.*;

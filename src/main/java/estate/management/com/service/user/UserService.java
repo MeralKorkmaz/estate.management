@@ -9,7 +9,7 @@ import estate.management.com.exception.ResourceNotFoundException;
 import estate.management.com.mail.helpermethod.GenerateResetCode;
 import estate.management.com.mail.mailpayload.MailPayload;
 import estate.management.com.mail.service.impl.EmailServiceImpl;
-import estate.management.com.payload.mapper.UserMapper;
+import estate.management.com.payload.mapper.user.UserMapper;
 import estate.management.com.payload.message.ErrorMessages;
 import estate.management.com.payload.message.SuccessMessages;
 

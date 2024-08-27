@@ -1,3 +1,4 @@
+
 package estate.management.com.domain;
 
 import javax.persistence.*;

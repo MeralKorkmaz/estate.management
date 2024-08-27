@@ -1,3 +1,4 @@
+
 package estate.management.com.domain.category;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;

@@ -1,3 +1,4 @@
+
 package estate.management.com.domain.advert;
 
 import com.fasterxml.jackson.annotation.JsonFormat;

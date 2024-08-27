@@ -1,3 +1,4 @@
+
 package estate.management.com.domain.category;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -43,7 +44,3 @@ public class CategoryPropertyKey {
     @JsonIgnore
     private List<CategoryPropertyValue> categoryPropertyValues;
 }
-
-
-
-

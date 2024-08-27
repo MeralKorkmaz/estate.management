@@ -1,3 +1,4 @@
+
 package estate.management.com.payload.request.advert;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -46,16 +47,4 @@ public class AdvertRequest {
 
     @NotNull(message = "Properties cannot be null")
     private List<PropertyRequest> properties;
-    }
-
-
-
-
-
-
-
-
-
-
-
-
+}
