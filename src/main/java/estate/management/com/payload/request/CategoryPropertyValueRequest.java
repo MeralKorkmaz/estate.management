@@ -1,4 +1,5 @@
 package estate.management.com.payload.request;
+import estate.management.com.domain.advert.Advert;
 import lombok.*;
 import javax.validation.constraints.NotNull;
 @Builder
@@ -9,14 +10,15 @@ public class CategoryPropertyValueRequest {
     @NotNull
     private String value;
     @NotNull
-    private Long advertId;
+    private Advert advert;
+
     private Long categoryPropertyKey;
 
 
     public String getValue() { return value;
     }
 
-    public Long getAdvertId() {return advertId;
+    public Advert getAdvert() {return advert;
     }
 
     public Long getId() {return id;

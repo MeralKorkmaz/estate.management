@@ -1,11 +1,14 @@
 package estate.management.com.controller.business;
+import estate.management.com.domain.category.Category;
 import estate.management.com.payload.request.CategoryRequest;
 import estate.management.com.payload.response.ResponseMessage;
 import estate.management.com.payload.response.business.CategoryResponse;
 import estate.management.com.service.business.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,19 +20,22 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CategoryController {
     private final CategoryService categoryService;
-    // C01-Endpoint to fetch active categories with optional title filtering and pagination
-    @GetMapping("")
-    public ResponseEntity<Page<CategoryResponse>> getActiveCategories(
-            @RequestParam(value = "title", required = false) String title,
-            @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "20") int size,
-            @RequestParam(value = "sort", defaultValue = "id") String sort,
-            @RequestParam(value = "type", defaultValue = "asc") String type) {
-        Page<CategoryResponse> categories = categoryService.getIsActiveCategories(title, page, size, sort, type);
+    // C01-Endpoint to fetch active categories
+    @GetMapping
+    public ResponseEntity<Page<Category>> getAllActiveCategories(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size,
+            @RequestParam(defaultValue = "category_id") String sort,
+            @RequestParam(defaultValue = "asc") String type) {
+
+        Sort.Direction sortDirection = type.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, sort));
+
+        Page<Category> categories = categoryService.getAllActiveCategories(pageable);
         return ResponseEntity.ok(categories);
     }
     //C02- Endpoint to fetch all categories with optional title filtering and pagination
-    @GetMapping("/title")
+    @GetMapping("/q")
     @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")
     public ResponseEntity<List<CategoryResponse>> getCategories(
             @RequestParam(required = false) String q,

@@ -66,10 +66,10 @@ import java.util.List;
         public void setIsActive(boolean isActive) {
             this.isActive = isActive;
         }
-        @JsonCreator
-        public Category(@JsonProperty("id") Long id) {
-            this.id = id;
-        }
+//        @JsonCreator
+//        public Category(@JsonProperty("id") Long id) {
+//            this.id = id;
+//        }
 
     }
 

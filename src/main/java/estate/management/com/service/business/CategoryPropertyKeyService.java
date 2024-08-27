@@ -3,15 +3,15 @@ import estate.management.com.domain.category.Category;
 import estate.management.com.domain.category.CategoryPropertyKey;
 import estate.management.com.domain.category.CategoryPropertyValue;
 import estate.management.com.exception.ResourceNotFoundException;
-import estate.management.com.payload.mappers.CategoryMapper;
+import estate.management.com.payload.mapper.CategoryMapper;
 import estate.management.com.payload.message.SuccessMessages;
 import estate.management.com.payload.request.CategoryPropertyKeyRequest;
 import estate.management.com.payload.request.CategoryPropertyValueRequest;
 import estate.management.com.payload.response.ResponseMessage;
 import estate.management.com.payload.response.business.CategoryPropertyKeyResponse;
 import estate.management.com.repository.CategoryPropertyKeyRepository;
-import estate.management.com.repository.CategoryPropertyValueRepository;
 import estate.management.com.repository.CategoryRepository;
+import estate.management.com.repository.business.CategoryPropertyValueRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -45,7 +45,7 @@ public class CategoryPropertyKeyService {
         for (CategoryPropertyValueRequest valueRequest : request.getCategoryPropertyValue()) {
             CategoryPropertyValue value = new CategoryPropertyValue();
             value.setValue(valueRequest.getValue());
-            value.setAdvertId(valueRequest.getAdvertId());
+            value.setAdvert(valueRequest.getAdvert());
             value.setCategoryPropertyKey(categoryPropertyKey);
             values.add(value);
         }
@@ -79,11 +79,11 @@ public class CategoryPropertyKeyService {
             if (valueRequest.getId() != null && existingValuesMap.containsKey(valueRequest.getId())) {
                 value = existingValuesMap.get(valueRequest.getId());
                 value.setValue(valueRequest.getValue());
-                value.setAdvertId(valueRequest.getAdvertId());
+                value.setAdvert(valueRequest.getAdvert());
             } else {
                 value = new CategoryPropertyValue();
                 value.setValue(valueRequest.getValue());
-                value.setAdvertId(valueRequest.getAdvertId());
+                value.setAdvert(valueRequest.getAdvert());
                 value.setCategoryPropertyKey(existingKey);}
             updatedValues.add(value);}
         existingKey.getCategoryPropertyValue().clear();

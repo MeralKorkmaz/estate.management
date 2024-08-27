@@ -23,4 +23,3 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
     @Query("SELECT c FROM Category c WHERE LOWER(c.slug) = LOWER(:slug)")
     Optional<Category> findBySlugIgnoreCase(@Param("slug") String slug);
 }
-

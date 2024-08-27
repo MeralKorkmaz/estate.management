@@ -107,6 +107,9 @@ public class WebSecurityConfig {
             "/districts",
             "/users/login",
             "/users/register",
+            "/categories",
+            "/categories/*",
+            "/categories/slug/**"
     };
 
 

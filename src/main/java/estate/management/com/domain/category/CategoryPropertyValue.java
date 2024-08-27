@@ -25,9 +25,10 @@ public class CategoryPropertyValue {
         @NotNull(message = "value cannot be null")
         @Size(max = 100, message = "value must be less than {max} characters")
         private String value;
-        @NotNull(message="advertId cannot be null")
-        @Column(name = "advert_id", nullable = false)
-        private Long advertId;
+       @ManyToOne
+       @JoinColumn(name = "category_property_values")
+       private Advert advert;
+
        @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
        @JoinColumn(name = "category_property_key_id", nullable = false)
        @JsonIgnore

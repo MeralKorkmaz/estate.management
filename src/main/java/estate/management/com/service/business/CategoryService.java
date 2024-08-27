@@ -4,29 +4,24 @@ import estate.management.com.domain.category.CategoryPropertyKey;
 import estate.management.com.domain.category.CategoryPropertyValue;
 import estate.management.com.exception.OperationNotAllowedException;
 import estate.management.com.exception.ResourceNotFoundException;
-import estate.management.com.payload.mappers.CategoryMapper;
+import estate.management.com.payload.mapper.CategoryMapper;
 import estate.management.com.payload.message.ErrorMessages;
 import estate.management.com.payload.message.SuccessMessages;
-import estate.management.com.payload.request.CategoryPropertyKeyRequest;
 import estate.management.com.payload.request.CategoryRequest;
 import estate.management.com.payload.response.ResponseMessage;
-import estate.management.com.payload.response.business.CategoryPropertyKeyResponse;
 import estate.management.com.payload.response.business.CategoryResponse;
 import estate.management.com.repository.CategoryPropertyKeyRepository;
-import estate.management.com.repository.CategoryPropertyValueRepository;
 import estate.management.com.repository.CategoryRepository;
+import estate.management.com.repository.business.CategoryPropertyValueRepository;
 import estate.management.com.repository.business.AdvertRepository;
 import estate.management.com.service.helper.PageableHelper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,23 +34,21 @@ public class CategoryService {
     private final CategoryMapper categoryMapper;
     private final PageableHelper pageableHelper;
 
-    public Page<CategoryResponse> getIsActiveCategories(String title, int page, int size, String sort, String type) {
-        Pageable pageable = pageableHelper.getPageableWithProperties(title, page, size, sort, type);
-        if (title != null && !title.isEmpty()) {
-            return categoryRepository.findByTitleContainingIgnoreCaseAndIsActive(title, true, pageable)
-                    .map(categoryMapper::mapCategoryToCategoryResponse);
-        } else {
-            return categoryRepository.findByIsActive(true, pageable)
-                    .map(categoryMapper::mapCategoryToCategoryResponse);}}
 
-    public List<CategoryResponse> getCategories(String title, Pageable pageable) {
-        Page<Category> categoryPage = categoryRepository.findByTitleContainingIgnoreCaseAndIsActive(title, true, pageable);
+
+    public Page<Category> getAllActiveCategories(Pageable pageable) {
+        return categoryRepository.findByIsActive(true, pageable);
+    }
+
+    public List<CategoryResponse> getCategories(String q, Pageable pageable) {
+        Page<Category> categoryPage = categoryRepository.findByTitleContainingIgnoreCaseAndIsActive(q, true, pageable);
         if (categoryPage.isEmpty()) {
             throw new ResourceNotFoundException(
-                    String.format("No categories found with title '%s'", title));}
+                    String.format("No categories found with title '%s'", q));}
         return categoryPage.stream()
                 .map(categoryMapper::mapCategoryToCategoryResponse)
                 .collect(Collectors.toList());}
+
 
     public CategoryResponse findCategoryById(Long id) {
         Category category = categoryRepository.findCategoryById(id)
@@ -83,7 +76,7 @@ public class CategoryService {
                     for (CategoryPropertyValue valueObj : keys.getCategoryPropertyValue()) {
                         CategoryPropertyValue propertyValue = new CategoryPropertyValue();
                         propertyValue.setValue(valueObj.getValue());
-                        propertyValue.setAdvertId(valueObj.getAdvertId());
+                        propertyValue.setAdvert(valueObj.getAdvert());
                         propertyValues.add(propertyValue);}}
                 propertyKey.setCategoryPropertyValue(propertyValues);
                 category.getCategoryPropertyKey().add(propertyKey);}}
@@ -136,6 +129,7 @@ public class CategoryService {
 
         return categoryMapper.mapCategoryToCategoryResponse(category);
     }
+
 }
 
 

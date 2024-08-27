@@ -1,5 +1,4 @@
 package estate.management.com.controller.user;
-
 import estate.management.com.domain.user.User;
 import estate.management.com.payload.request.user.concretes.*;
 import estate.management.com.payload.response.ResponseMessage;
@@ -58,7 +57,7 @@ public class UserController {
     @PutMapping("/user/auth")
     @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER','CUSTOMER')")
     public ResponseEntity<UserResponse> updateUserByThemselves(@RequestBody @Valid
-                                                                   UserRequestWithoutPassword userRequestWithoutPassword,
+                                                               UserRequestWithoutPassword userRequestWithoutPassword,
                                                                HttpServletRequest request) {
         return userService.updateUserByThemselves(userRequestWithoutPassword, request);
     }

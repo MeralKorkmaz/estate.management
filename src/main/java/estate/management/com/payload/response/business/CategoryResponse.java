@@ -26,5 +26,4 @@ public class CategoryResponse {
     private boolean isActive;
     private LocalDateTime createAt;
     private LocalDateTime updateAt;
-    private TourRequest tourRequest;
     private List<CategoryPropertyKeyResponse> categoryPropertyKey;}

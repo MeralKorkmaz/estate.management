@@ -1,22 +1,39 @@
-package estate.management.com.service;
+package estate.management.com.service.user;
+
 
 import estate.management.com.domain.user.RoleType;
 import estate.management.com.domain.user.User;
 import estate.management.com.exception.BadRequestException;
-import estate.management.com.payload.mappers.UserMapper;
-import estate.management.com.payload.messages.ErrorMessages;
-import estate.management.com.payload.messages.SuccessMessages;
-import estate.management.com.payload.request.LoginRequest;
-import estate.management.com.payload.request.UpdatePasswordRequest;
-import estate.management.com.payload.request.UserRequest;
-import estate.management.com.payload.response.LoginResponse;
+import estate.management.com.exception.ResourceNotFoundException;
+
+import estate.management.com.mail.helpermethod.GenerateResetCode;
+import estate.management.com.mail.mailpayload.MailPayload;
+import estate.management.com.mail.service.impl.EmailServiceImpl;
+import estate.management.com.payload.mapper.UserMapper;
+import estate.management.com.payload.message.ErrorMessages;
+import estate.management.com.payload.message.SuccessMessages;
+
+import estate.management.com.payload.request.user.concretes.*;
+
 import estate.management.com.payload.response.ResponseMessage;
-import estate.management.com.payload.response.UserResponse;
+
+
+import estate.management.com.payload.response.user.abstracts.BaseUserResponse;
+import estate.management.com.payload.response.user.concretes.LoginResponse;
+import estate.management.com.payload.response.user.concretes.UserResponse;
+import estate.management.com.payload.response.user.concretes.UserResponseWithRoleWithoutPassword;
 import estate.management.com.repository.UserRepository;
 import estate.management.com.security.jwt.JwtUtils;
 import estate.management.com.security.service.UserDetailsImpl;
-import estate.management.com.service.validator.ValidatorForUser;
+
+
+import estate.management.com.service.user.validator.ValidatorForUser;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -36,6 +53,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserService {
 
+    @Value("${backendapi.app.mailaddress}")
+    private String mailaddress;
+
     private final UserRepository userRepository;
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
@@ -43,9 +63,11 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final ValidatorForUser validatorForUser;
     private final UserRoleService userRoleService;
+    private final EmailServiceImpl emailService;
+    private final GenerateResetCode resetCode;
 
 
-    public ResponseEntity<LoginResponse> authenticateUser(LoginRequest loginRequest) {
+    public ResponseEntity<LoginResponse> loginUser(LoginRequest loginRequest) {
         String email = loginRequest.getEmail();
         String password = loginRequest.getPassword();
 
@@ -73,14 +95,20 @@ public class UserService {
 
     }
 
-    public UserResponse findByEmail(String useremail) {
-        User user = userRepository.findByEmailEquals(useremail);
+    public UserResponse findByEmail(String userEmail) {
+        User user = userRepository.findByEmailEquals(userEmail);
+        if (user.getId() == null) {
+            throw new ResourceNotFoundException(ErrorMessages.NOT_FOUND_USER_MESSAGE);
+        }
         return userMapper.mapUserToUserResponse(user);
     }
 
     public ResponseEntity<String> updatePassword(UpdatePasswordRequest updatePasswordRequest, HttpServletRequest request) {
+
+        validatorForUser.confirmPasswordCheck(updatePasswordRequest.getNewPassword(), updatePasswordRequest.getConfirmPassword());
         String email = (String) request.getAttribute("email");
         User user = userRepository.findByEmailEquals(email);
+
 
         if (Boolean.TRUE.equals(user.getBuilt_in())) {
             throw new BadRequestException(ErrorMessages.NOT_PERMITTED_METHOD_MESSAGE);
@@ -98,9 +126,8 @@ public class UserService {
 
         validatorForUser.confirmPasswordCheck(userRequest.getPasswordHash(), userRequest.getConfirmPassword());
         validatorForUser.validateForPassword(userRequest.getPasswordHash());
-        if (userRepository.existsByEmailEquals(userRequest.getEmail())) {
-            throw new BadRequestException(ErrorMessages.ALREADY_REGISTER_MESSAGE_EMAIL);
-        }
+        validatorForUser.uniqueEmail(userRequest.getEmail());
+
         User user = userMapper.mapUserRequestToUser(userRequest);
         user.setBuilt_in(false);
         user.setPasswordHash(passwordEncoder.encode(userRequest.getPasswordHash()));
@@ -116,9 +143,8 @@ public class UserService {
 
         validatorForUser.confirmPasswordCheck(userRequest.getPasswordHash(), userRequest.getConfirmPassword());
         validatorForUser.validateForPassword(userRequest.getPasswordHash());
-        if (userRepository.existsByEmailEquals(userRequest.getEmail())) {
-            throw new BadRequestException(ErrorMessages.ALREADY_REGISTER_MESSAGE_EMAIL);
-        }
+        validatorForUser.uniqueEmail(userRequest.getEmail());
+
         User user = userMapper.mapUserRequestToUser(userRequest);
         user.setBuilt_in(true);
         user.setPasswordHash(passwordEncoder.encode(userRequest.getPasswordHash()));
@@ -128,7 +154,143 @@ public class UserService {
         UserResponse userResponse = userMapper.mapUserToUserResponse(savedUser);
         return new ResponseMessage<>(userResponse, SuccessMessages.CUSTOMER_REGISTER_SUCCESS, HttpStatus.CREATED);
     }
-    public long countAllAdmins(){
+
+    public long countAllAdmins() {
         return userRepository.countAdmin(RoleType.ADMIN);
+    }
+
+    public String deleteUserById(Long id, HttpServletRequest httpServletRequest) {
+        User user = userRepository.findById(id).orElseThrow(() -> //silinecek user
+                new ResourceNotFoundException(String.format(ErrorMessages.NOT_FOUND_USER_MESSAGE, id)));
+
+        String userEmailWantsToDelete = (String) httpServletRequest.getAttribute("email");
+        User userWantsToDelete = userRepository.findByEmailEquals(userEmailWantsToDelete);
+        if (Boolean.TRUE.equals(user.getBuilt_in())) {
+            throw new BadRequestException(ErrorMessages.NOT_PERMITTED_METHOD_MESSAGE);
+
+        } else if (userWantsToDelete.getUserRole().getRoleType() == RoleType.ADMIN) {
+            if ((user.getUserRole().getRoleType() == RoleType.ADMIN) && (user.getId() != userWantsToDelete.getId())) {
+                throw new BadRequestException(ErrorMessages.NOT_PERMITTED_METHOD_MESSAGE);
+            }
+        } else if (userWantsToDelete.getUserRole().getRoleType() == RoleType.MANAGER) {
+            if (user.getUserRole().getRoleType() == RoleType.MANAGER || user.getUserRole().getRoleType() == RoleType.ADMIN) {
+                throw new BadRequestException(ErrorMessages.NOT_PERMITTED_METHOD_MESSAGE);
+            } else if (userWantsToDelete.getUserRole().getRoleType() == RoleType.CUSTOMER) {
+                if (user.getUserRole().getRoleType() == RoleType.MANAGER || user.getUserRole().getRoleType() == RoleType.ADMIN || (user.getUserRole().getRoleType() == RoleType.CUSTOMER && user.getId() != userWantsToDelete.getId())) {
+                    throw new BadRequestException(ErrorMessages.NOT_PERMITTED_METHOD_MESSAGE);
+                }
+            }
+        }
+
+        //TODO buraya favori ve log entitlrinin delete methodu cagirilacak
+        userRepository.deleteById(id);
+        return SuccessMessages.USER_DELETE_BY_ADMIN_OR_MANAGER;
+    }
+
+
+    public ResponseMessage<BaseUserResponse> updateUserByAdmin(UserRequestForUpdatingByAdmin userRequestForUpdatingByAdmin, Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() ->
+                new ResourceNotFoundException(String.format(ErrorMessages.NOT_FOUND_USER_MESSAGE, userId)));
+
+        validatorForUser.checkBuiltin(user);
+        validatorForUser.uniqueEmail(user.getEmail());
+
+        User updatedUser = userMapper.mapUserRequestForUpdatingByAdminToUser(userRequestForUpdatingByAdmin);
+        updatedUser.setId(userId);
+
+        User savedUser = userRepository.save(updatedUser);
+
+        return ResponseMessage.<BaseUserResponse>builder()
+                .message(SuccessMessages.USER_UPDATE_MESSAGE)
+                .status(HttpStatus.OK)
+                .object(userMapper.mapUserToUserResponse(savedUser))
+                .build();
+
+    }
+
+    public ResponseEntity<UserResponse> updateUserByThemselves(UserRequestWithoutPassword userRequestWithoutPassword, HttpServletRequest request) {
+        String email = (String) request.getAttribute("email");
+        User user = userRepository.findByEmailEquals(email);
+        validatorForUser.checkBuiltin(user);
+
+        if (!(userRequestWithoutPassword.getEmail().equals(email))) {
+            validatorForUser.uniqueEmail(userRequestWithoutPassword.getEmail());
+            user.setEmail(userRequestWithoutPassword.getEmail());
+        }
+        user.setFirstName(userRequestWithoutPassword.getFirstName());
+        user.setLastName(userRequestWithoutPassword.getLastName());
+        user.setPhone(userRequestWithoutPassword.getPhone());
+        userRepository.save(user);
+        return ResponseEntity.ok(userMapper.mapUserToUserResponse(user));
+
+//        User updatedUser = userMapper.UserRequestWithoutPassword(userRequestWithoutPassword);
+//        if(!(userRequestWithoutPassword.getEmail().equals(email))){
+//            validatorForUser.uniqueEmail(userRequestWithoutPassword.getEmail());
+//            updatedUser.setEmail(userRequestWithoutPassword.getEmail());
+//        }
+//
+//
+//        updatedUser.setUserRole(user.getUserRole());
+//        updatedUser.setId(user.getId());
+//        updatedUser.setEmail(user.getEmail());
+//        updatedUser.setPasswordHash(user.getPasswordHash());
+//        updatedUser.setBuilt_in(user.getBuilt_in());
+//
+//
+//        userRepository.save(updatedUser);
+//
+//        return ResponseEntity.ok(userMapper.mapUserToUserResponse(updatedUser));
+    }
+
+
+    public Page<User> searchUsers(String query, int page, int size, String sortField, String sortType) {
+        Sort sort = Sort.by(Sort.Direction.fromString(sortType), sortField);
+        Pageable pageable = PageRequest.of(page, size, sort);
+        return userRepository.search(query, pageable);
+    }
+
+    public ResponseMessage<UserResponseWithRoleWithoutPassword> getUserById(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow((() ->
+                new ResourceNotFoundException(String.format(ErrorMessages.NOT_FOUND_USER_MESSAGE, userId))));
+
+        return ResponseMessage.<UserResponseWithRoleWithoutPassword>builder()
+                .message(SuccessMessages.USER_FOUND)
+                .status(HttpStatus.OK)
+                .object(userMapper.mapUserToUserResponseWithRoleWithoutPassword(user))
+                .build();
+    }
+
+
+    public ResponseEntity<String> deleteAuthUser(UserDeleteRequest userDeleteRequest, HttpServletRequest request) {
+        String email = (String) request.getAttribute("email");
+        User user = userRepository.findByEmailEquals(email);
+        if (Boolean.TRUE.equals(user.getBuilt_in())) {
+            throw new BadRequestException(ErrorMessages.NOT_PERMITTED_METHOD_MESSAGE);
+        }
+        if (!passwordEncoder.matches(userDeleteRequest.getPassword(), user.getPasswordHash())) {
+            throw new BadRequestException(ErrorMessages.WRONG_PASSWORD_MESSAGE);
+        }
+
+        userRepository.deleteById(user.getId());
+        return ResponseEntity.ok(SuccessMessages.USER_DELETE_BY_CUSTOMER);
+
+    }
+
+    public String forgotPassword(ForgotPasswordRequest forgotPasswordRequest) {
+        User user = userRepository.findByEmailEquals(forgotPasswordRequest.getEmail());
+        String mail = forgotPasswordRequest.getEmail();
+        if (user == null) {
+            throw new ResourceNotFoundException(String.format(ErrorMessages.NOT_FOUND_USER_MESSAGE, forgotPasswordRequest.getEmail()));
+        }
+        String code = resetCode.generateResetCode();
+        MailPayload mailPayload= MailPayload.builder()
+                .from(mailaddress)
+                .to(mail)
+                .subject("Luvenda Real Estate!!! Password Reset Code")
+                .text("Luvenda Real Estate Your password reset code is: " + code)
+                .build();
+        emailService.sendEmail(mailPayload);
+
+        return SuccessMessages.FORGOT_PASSWORD_RESET_CODE_EMAIL_SEND;
     }
 }

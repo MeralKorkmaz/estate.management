@@ -1,4 +1,5 @@
-package estate.management.com.payload.mappers;
+package estate.management.com.payload.mapper;
+
 import estate.management.com.domain.category.Category;
 import estate.management.com.domain.category.CategoryPropertyKey;
 import estate.management.com.domain.category.CategoryPropertyValue;
@@ -51,13 +52,13 @@ public class CategoryMapper {
         return CategoryPropertyValueResponse.builder()
                 .id(categoryPropertyValue.getId())
                 .value(categoryPropertyValue.getValue())
-                .advertId(categoryPropertyValue.getAdvertId())
+                .advert(categoryPropertyValue.getAdvert())
                 .build();}
     public CategoryPropertyValueRequest mapCategoryPropertyValueToCategoryPropertyValueRequest(CategoryPropertyValue categoryPropertyValue) {
         return CategoryPropertyValueRequest.builder()
                 .id(categoryPropertyValue.getId())
                 .value(categoryPropertyValue.getValue())
-                .advertId(categoryPropertyValue.getAdvertId())
+                .advert(categoryPropertyValue.getAdvert())
                 .build();}
     public List<CategoryPropertyValueRequest> mapToCategoryPropertyValueRequestList(List<CategoryPropertyValue> propertyValues) {
         return propertyValues.stream()
