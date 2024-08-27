@@ -1,3 +1,4 @@
+
 package estate.management.com.domain.category;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -39,6 +40,7 @@ public class CategoryPropertyKey {
     @OneToMany(mappedBy = "categoryPropertyKey",cascade = CascadeType.ALL,orphanRemoval = true)
     @JsonIgnore
     private List<CategoryPropertyValue> categoryPropertyValue=new ArrayList<>();
+
 
 }
 

@@ -1,7 +1,19 @@
+
 package estate.management.com.domain;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+
+import estate.management.com.domain.advert.Advert;
+import lombok.*;
+
+
+
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 
 @Entity
 @Table(name="images")
@@ -9,6 +21,7 @@ public class Image {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Setter(AccessLevel.NONE)
     private Long id;
     @Lob
     private byte[] data;
@@ -22,6 +35,10 @@ public class Image {
     private boolean featured=false;
 
 
-    @Column(name="advert_id",nullable = false)
-    private int advertId;
+    @ManyToOne
+    @JoinColumn(name = "images")
+    private Advert advert;
+
+
+
 }

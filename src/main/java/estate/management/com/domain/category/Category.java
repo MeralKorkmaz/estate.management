@@ -1,3 +1,4 @@
+
 package estate.management.com.domain.category;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -66,14 +67,5 @@ import java.util.List;
         public void setIsActive(boolean isActive) {
             this.isActive = isActive;
         }
-//        @JsonCreator
-//        public Category(@JsonProperty("id") Long id) {
-//            this.id = id;
-//        }
 
     }
-
-
-
-
-

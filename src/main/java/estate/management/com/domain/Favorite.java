@@ -15,7 +15,6 @@ import java.util.Set;
 @Getter
 @Setter
 @Builder(toBuilder = true)
-
 @Entity
 @Table(name = "favorite")
 public class Favorite {

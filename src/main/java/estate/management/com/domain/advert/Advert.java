@@ -1,8 +1,12 @@
+
 package estate.management.com.domain.advert;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import estate.management.com.domain.category.Category;
+import estate.management.com.domain.Image;
+import estate.management.com.domain.administrative.City;
+import estate.management.com.domain.category.CategoryPropertyKey;
+import estate.management.com.domain.category.CategoryPropertyValue;
 import lombok.*;
 
 import javax.persistence.*;
@@ -10,6 +14,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.text.Normalizer;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -73,7 +78,7 @@ public class Advert {
     private int viewCount = 0;
 
     // Google embeded code should be stored in this field.
-    @Column(name = "location", nullable = false)
+    @Column(name = "location", nullable = false, columnDefinition = "TEXT")
     @NotNull(message = "Location cannot be null")
     private String location;
 
@@ -111,7 +116,19 @@ public class Advert {
 
     @Column(name = "category_id", nullable = false)
     @NotNull(message = "categoryId cannot be null" )
-    private Long categoryId;
+    private int categoryId;
+
+    @OneToMany(mappedBy = "advert")
+    @JsonIgnore
+    private List<CategoryPropertyValue> categoryPropertyValue;
+
+    @OneToMany(mappedBy = "advert")
+    private List<Image> images;
+
+
+
+
+
 
 
     // ------ METHODS --------
@@ -126,7 +143,7 @@ public class Advert {
     }
 
     /*
-    Methode to generate and prePersist/preUpdate slug field from title automatically.
+    Method to generate and prePersist/preUpdate slug field from title automatically.
     Creation time prePersist to current time if not set manually.
     PreUpdate updatedAt field.
     */

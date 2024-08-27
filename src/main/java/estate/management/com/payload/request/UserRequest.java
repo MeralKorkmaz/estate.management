@@ -1,7 +1,7 @@
 package estate.management.com.payload.request;
 
-import estate.management.com.payload.request.abstracts.BaseUserRequest;
-import estate.management.com.payload.response.abstracts.BaseUserResponse;
+import estate.management.com.payload.request.user.abstracts.BaseUserRequest;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
