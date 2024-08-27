@@ -47,8 +47,8 @@ public class AdvertController {
         return advertService.getTheAdvertsByPage(q, advertTypeId, priceStart, priceEnd, location, status, page, size, sort, type);
     }
 
-    @GetMapping("/cities/{cityId}")
-    public ResponseEntity<AdvertResponseForCity> getCities(@PathVariable int cityId) {
+    @GetMapping("/cities")
+    public ResponseEntity<AdvertResponseForCity> getCities(@RequestParam(name = "cityId") int cityId) {
         AdvertResponseForCity response = advertService.getCities(cityId);
         return ResponseEntity.ok(response);
     }
