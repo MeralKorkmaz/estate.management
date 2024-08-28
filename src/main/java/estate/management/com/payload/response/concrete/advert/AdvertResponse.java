@@ -33,6 +33,7 @@ public class AdvertResponse {
     private int viewCount;
     private List<ImageResponse> images;
     private List<PropertyResponse> properties;
+    private String slug;
 
 
 }

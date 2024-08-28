@@ -11,10 +11,10 @@ public class ErrorMessages {
      */
 
     // GENERAL ERRORS:
-    private static final String GENERAL_NOT_FOUND_ERROR="Error: Not found!";
-    private static final String GENERAL_FORMAT_ERROR="Invalid format! Please enter a valid format.";
-    private static final String GENERAL_DATE_FORMAT_ERROR="Invalid date format! Please enter a valid date format such as yyyy-MM-dd'T'HH:mm:ss'Z'";
-    private static final String GENERAL_TIME_CONFLICT_ERROR="There is a time conflict. Please enter a valid time!";
+    public static final String GENERAL_NOT_FOUND_ERROR="Error: Not found!";
+    public static final String GENERAL_FORMAT_ERROR="Invalid format! Please enter a valid format.";
+    public static final String GENERAL_DATE_FORMAT_ERROR="Invalid date format! Please enter a valid date format such as yyyy-MM-dd'T'HH:mm:ss'Z'";
+    public static final String GENERAL_TIME_CONFLICT_ERROR="There is a time conflict. Please enter a valid time!";
 
     // ADVERTS:
     public static final String ADVERT_GENERAL_NOT_FOUND_ERROR="Advert cannot found!";
@@ -25,19 +25,20 @@ public class ErrorMessages {
     public static final String ADVERT_ADVERT_TYPE_ID_NOT_FOUND_ERROR="Advert with %s advert type id cannot found!";
     public static final String ADVERT_CITY_NOT_FOUND_ERROR="Advert in %s city cannot found!";
     public static final String ADVERT_CITY_ID_NOT_FOUND_ERROR="Advert with %s city id cannot found!";
-    private static final String ADVERT_PRICE_RANGE_NOT_FOUND_ERROR="There is no advert found in specified price range";
-    private static final String ADVERT_LOCATION_NOT_FOUND_ERROR="Advert in %s location cannot found!";
-    private static final String ADVERT_LOCATION_ID_NOT_FOUND_ERROR="Advert with %s location id cannot found!";
-    private static final String ADVERT_STATUS_NOT_FOUND_ERROR="Advert in %s status cannot found!";
-    private static final String ADVERT_STATUS_ID_NOT_FOUND_ERROR="Advert with %s status id cannot found!";
-    private static final String ADVERT_SLUG_NOT_FOUND_ERROR="Advert with %s slug cannot found!";
-    private static final String ADVERT_SLUG_ID_NOT_FOUND_ERROR="Advert with %s slug id cannot found!";
-    private static final String ADVERT_USER_ID_NOT_FOUND_ERROR="Advert with %s user id cannot found!";
+   public static final String ADVERT_PRICE_RANGE_NOT_FOUND_ERROR="There is no advert found in specified price range";
+   public static final String ADVERT_LOCATION_NOT_FOUND_ERROR="Advert in %s location cannot found!";
+   public static final String ADVERT_LOCATION_ID_NOT_FOUND_ERROR="Advert with %s location id cannot found!";
+   public static final String ADVERT_STATUS_NOT_FOUND_ERROR="Advert in %s status cannot found!";
+   public static final String ADVERT_STATUS_ID_NOT_FOUND_ERROR="Advert with %s status id cannot found!";
+   public static final String ADVERT_SLUG_NOT_FOUND_ERROR = "Advert with slug '%s' not found!";
+
+   public static final String ADVERT_SLUG_ID_NOT_FOUND_ERROR="Advert with %s slug id cannot found!";
+   public static final String ADVERT_USER_ID_NOT_FOUND_ERROR="Advert with %s user id cannot found!";
 
     // USER:
-    private static final String USER_GENERAL_NOT_FOUND_ERROR="User cannot found!";
+   public static final String USER_GENERAL_NOT_FOUND_ERROR="User cannot found!";
     public static final String USER_NOT_FOUND_USER_MESSAGE = "User with id %s cannot found!";
-    private static final String USER_LOGIN_DENIED_ERROR="Invalid credentials!";
+   public static final String USER_LOGIN_DENIED_ERROR="Invalid credentials!";
     public static final String USER_ALREADY_REGISTER_MESSAGE_PHONE_NUMBER = "User with phone number %s is already registered";
     public static final String USER_ALREADY_REGISTER_MESSAGE_EMAIL = "User with email %s is already registered";
     public static final String USER_NOT_HAVE_EXPECTED_ROLE_USER = "User does not have expected role";
@@ -90,11 +91,11 @@ public class ErrorMessages {
     public static final String DISTRICT_ID_MISMATCH_ERROR="District with %s id cannot found!";
     public static final String USER_ID_MISMATCH_ERROR="User with %s id cannot found!";
     public static final String CATEGORY_ID_MISMATCH_ERROR="Category with %s id cannot found!";
-    private static final String CATEGORY_PROPERTY_KEY_ID_MISMATCH_ERROR="Category Property Key with %s id cannot found!";
-    private static final String ADVERT_ID_MISMATCH_ERROR="Advert with %s id cannot found!";
-    private static final String ROLE_ID_MISMATCH_ERROR="Role with %s id cannot found!";
-    private static final String OWNER_USER_ID_MISMATCH_ERROR="Owner user with %s id cannot found!";
-    private static final String GUEST_USER_ID_MISMATCH_ERROR="Guest user with %s id cannot found!";
+    public static final String CATEGORY_PROPERTY_KEY_ID_MISMATCH_ERROR="Category Property Key with %s id cannot found!";
+    public static final String ADVERT_ID_MISMATCH_ERROR="Advert with %s id cannot found!";
+    public static final String ROLE_ID_MISMATCH_ERROR="Role with %s id cannot found!";
+    public static final String OWNER_USER_ID_MISMATCH_ERROR="Owner user with %s id cannot found!";
+    public static final String GUEST_USER_ID_MISMATCH_ERROR="Guest user with %s id cannot found!";
 
     // FORMAT ERRORS:
     public static final String SLUG_FORMAT_ERROR = "Slug must be URL encoded and in a valid format!";

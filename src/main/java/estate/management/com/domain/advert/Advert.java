@@ -4,7 +4,9 @@ package estate.management.com.domain.advert;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import estate.management.com.domain.Image;
+import estate.management.com.domain.TourRequest;
 import estate.management.com.domain.administrative.City;
+import estate.management.com.domain.category.Category;
 import estate.management.com.domain.category.CategoryPropertyKey;
 import estate.management.com.domain.category.CategoryPropertyValue;
 import lombok.*;
@@ -102,9 +104,9 @@ public class Advert {
     @NotNull(message = "countryId cannot be null" )
     private int countryId;
 
-    @Column(name = "city_id", nullable = false)
-    @NotNull(message = "cityId cannot be null" )
-    private int cityId;
+    @ManyToOne
+    @JoinColumn(name = "city_id")
+   private City city;
 
     @Column(name = "discrict_id", nullable = false)
     @NotNull(message = "disctrictId cannot be null" )
@@ -114,12 +116,22 @@ public class Advert {
     @NotNull(message = "userId cannot be null" )
     private int userId;
 
+
     @OneToMany(mappedBy = "advert")
     @JsonIgnore
     private List<CategoryPropertyValue> categoryPropertyValues;
 
     @OneToMany(mappedBy = "advert")
+    @JsonIgnore
     private List<Image> images;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+    @OneToMany(mappedBy = "advert")
+    @JsonIgnore
+    private List<TourRequest> tourRequests;
 
 
 
@@ -129,14 +141,6 @@ public class Advert {
 
     // ------ METHODS --------
 
-    //TODO check if we are using slug again - in helper or service
-    //Method to convert input String (title) to slug
-    public static String toSlug(String input) {
-        String noWhiteSpace = Pattern.compile("\\s").matcher(input).replaceAll("-");
-        String normalized = Normalizer.normalize(noWhiteSpace, Normalizer.Form.NFD);
-        String slug = Pattern.compile("[^\\w-]").matcher(normalized).replaceAll("");
-        return slug.toLowerCase();
-    }
 
     /*
     Method to generate and prePersist/preUpdate slug field from title automatically.

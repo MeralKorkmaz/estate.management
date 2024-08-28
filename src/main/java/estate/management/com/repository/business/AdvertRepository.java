@@ -1,9 +1,9 @@
 
 package estate.management.com.repository.business;
 
-import estate.management.com.domain.administrative.City;
 import estate.management.com.domain.advert.Advert;
-import estate.management.com.payload.response.concrete.CityResponse;
+import estate.management.com.payload.response.concrete.advert.CategoryResponseForAdvert;
+import estate.management.com.payload.response.concrete.advert.CityResponseForAdvert;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+
 @Repository
 public interface AdvertRepository extends JpaRepository<Advert, Long> {
 
@@ -32,7 +33,17 @@ public interface AdvertRepository extends JpaRepository<Advert, Long> {
                                        @Param("status") Integer status,
                                        Pageable pageable);
 
-    @Query("SELECT new estate.management.com.payload.response.concrete.CityResponse(a.location, COUNT(a)) " +
-            "FROM Advert a WHERE a.cityId = :cityId GROUP BY a.location")
-    List<CityResponse> findCityCountsByCityId(@Param("cityId") int cityId);
+    @Query("SELECT new estate.management.com.payload.response.concrete.advert.CityResponseForAdvert(c.name,COUNT(a))"
+    + "FROM Advert a JOIN a.city c " +
+            "GROUP BY c.name")
+    List<CityResponseForAdvert> countAdvertsByCity();
+    @Query("SELECT new estate.management.com.payload.response.concrete.advert.CategoryResponseForAdvert(c.title, COUNT(a)) " +
+            "FROM Advert a JOIN a.category c " +
+            "GROUP BY c.title")
+    List<CategoryResponseForAdvert> countAdvertsByCategory();
+
+
+    boolean existsBySlug(String slug);
+
+    Optional<Advert> findBySlug(String slug);
 }
