@@ -1,4 +1,4 @@
-package estate.management.com.payload.response.concrete;
+package estate.management.com.payload.response.concrete.advert;
 
 import lombok.*;
 
@@ -8,7 +8,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CityResponse {
+public class CityResponseForAdvert {
 
     private String city;
     private long amount;  // Field to hold the count

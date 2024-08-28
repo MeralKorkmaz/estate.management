@@ -47,4 +47,9 @@ public class AdvertRequest {
 
     @NotNull(message = "Properties cannot be null")
     private List<PropertyRequest> properties;
+
+    @Column(name = "slug", nullable = false, length = 200)
+    @NotNull(message = "Slug cannot be null")
+    @Size(min = 5, max = 200,  message = "Slug must be between {min} and {max} characters")
+    private String slug;
 }

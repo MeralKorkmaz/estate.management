@@ -34,7 +34,7 @@ public class City {
 
     @OneToMany(mappedBy = "city")
     @JsonIgnore
-    private List<Advert> advert;
+    private List<Advert> adverts;
 
 
 }

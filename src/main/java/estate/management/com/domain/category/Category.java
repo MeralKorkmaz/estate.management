@@ -3,13 +3,16 @@ package estate.management.com.domain.category;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import estate.management.com.domain.TourRequest;
+import estate.management.com.domain.advert.Advert;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @AllArgsConstructor
@@ -67,6 +70,10 @@ public class Category {
 
     @OneToOne(mappedBy = "category")
     private TourRequest tourRequest;
+
+    @OneToMany(mappedBy = "category")
+    @JsonIgnore
+    private List<Advert> adverts;
 
 
 
