@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 @Component
 public class AdvertMapper {
 
-    public static AdvertResponse toAdvertResponse(Advert advert) {
+    public AdvertResponse toAdvertResponse(Advert advert) {
         return AdvertResponse.builder()
                 .id(advert.getId())
                 .title(advert.getTitle())
@@ -58,7 +58,7 @@ public class AdvertMapper {
                 )
                 .build();
     }
-    public static Advert toAdvert(AdvertRequest advertRequest) {
+    public Advert toAdvert(AdvertRequest advertRequest) {
         return Advert.builder()
                 .title(advertRequest.getTitle())
                 .description(advertRequest.getDescription())
