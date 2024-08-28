@@ -3,17 +3,18 @@ package estate.management.com.controller.business;
 import estate.management.com.payload.request.advert.AdvertRequest;
 import estate.management.com.payload.response.ResponseMessage;
 import estate.management.com.payload.response.concrete.advert.AdvertResponse;
-import estate.management.com.payload.response.concrete.advert.AdvertResponseForCity;
+import estate.management.com.payload.response.concrete.advert.CategoryResponseForAdvert;
+import estate.management.com.payload.response.concrete.advert.CityResponseForAdvert;
 import estate.management.com.service.business.AdvertService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -47,11 +48,28 @@ public class AdvertController {
     }
 
     @GetMapping("/cities")
-    public ResponseEntity<AdvertResponseForCity> getCities(@RequestParam(name = "cityId") int cityId) {
-        AdvertResponseForCity response = advertService.getCities(cityId);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<List<CityResponseForAdvert>> getCities(@RequestParam(name = "cityId") Long cityId) {
+
+        return ResponseEntity.ok(advertService.getCities(cityId));
     }
 
+
+    @GetMapping("/categories")
+    public ResponseEntity<List<CategoryResponseForAdvert>> getCategories(@RequestParam(name = "categoryId") Long categoryId){
+        return ResponseEntity.ok(advertService.getCategories(categoryId));
+    }
+
+
+    @GetMapping("/slug")
+    public ResponseEntity<AdvertResponse> getAdvertBySlug(@Valid @RequestBody AdvertRequest request) {
+        AdvertResponse advertResponse = advertService.getAdvertBySlug(request);
+        return ResponseEntity.ok(advertResponse);
+    }
+
+    @GetMapping("/{advertId}/auth")
+    public ResponseMessage<AdvertResponse> getAuthenticatedUserById(@PathVariable Long advertId, HttpServletRequest request){
+        return advertService.getAuthenticatedUserById(advertId,request);
+    }
 
     // http://localhost:8080/adverts/1/admin
     @GetMapping("/{advertId}/admin")

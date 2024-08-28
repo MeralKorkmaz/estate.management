@@ -36,7 +36,7 @@ public class Image {
 
 
     @ManyToOne
-    @JoinColumn(name = "images")
+    @JoinColumn(name = "advert_id")
     private Advert advert;
 
 

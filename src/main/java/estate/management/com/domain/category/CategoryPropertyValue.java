@@ -32,12 +32,12 @@ public class CategoryPropertyValue {
 
 
     @ManyToOne
-    @JoinColumn(name = "category_property_values")
+    @JoinColumn(name = "advert_id")
     private Advert advert;
 
 
     @ManyToOne
-    @JoinColumn(name = "category_propery_values")
+    @JoinColumn(name = "category_property_key_id")
     private CategoryPropertyKey categoryPropertyKey;
 
 }

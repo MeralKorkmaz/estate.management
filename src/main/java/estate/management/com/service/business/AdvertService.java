@@ -2,21 +2,17 @@
 
 package estate.management.com.service.business;
 
-import estate.management.com.domain.Image;
-import estate.management.com.domain.administrative.City;
 import estate.management.com.domain.advert.Advert;
-import estate.management.com.domain.category.CategoryPropertyKey;
 import estate.management.com.domain.user.User;
 import estate.management.com.exception.ResourceNotFoundException;
 import estate.management.com.payload.mapper.AdvertMapper;
 import estate.management.com.payload.message.ErrorMessages;
 import estate.management.com.payload.message.SuccessMessages;
-import estate.management.com.payload.request.ImageRequest;
 import estate.management.com.payload.request.advert.AdvertRequest;
 import estate.management.com.payload.response.ResponseMessage;
-import estate.management.com.payload.response.concrete.CityResponse;
+import estate.management.com.payload.response.concrete.advert.CategoryResponseForAdvert;
+import estate.management.com.payload.response.concrete.advert.CityResponseForAdvert;
 import estate.management.com.payload.response.concrete.advert.AdvertResponse;
-import estate.management.com.payload.response.concrete.advert.AdvertResponseForCity;
 import estate.management.com.repository.UserRepository;
 import estate.management.com.repository.business.AdvertRepository;
 import estate.management.com.repository.business.CategoryPropertyKeyRepository;
@@ -29,7 +25,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.Normalizer;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @Service
 @RequiredArgsConstructor
@@ -42,10 +40,28 @@ public class AdvertService {
 
     private final UserRepository userRepository;
 
+    private String generateSlug(String input) {
+        String noWhiteSpace = Pattern.compile("\\s").matcher(input).replaceAll("-");
+        String normalized = Normalizer.normalize(noWhiteSpace, Normalizer.Form.NFD);
+        return Pattern.compile("[^\\w-]").matcher(normalized).replaceAll("").toLowerCase();
+    }
+
+
     public AdvertResponse saveAdvert(AdvertRequest advertRequest) {
-        Advert advert = AdvertMapper.toAdvert(advertRequest);
+        String slug = advertRequest.getSlug();
+        if (slug == null || slug.isEmpty()) {
+            slug = generateSlug(advertRequest.getTitle());
+        }
+
+        // Check for unique slug
+        if (advertRepository.existsBySlug(slug)) {
+            throw new RuntimeException("Slug already exists");
+        }
+
+        Advert advert = advertMapper.toAdvert(advertRequest);
+        advert.setSlug(slug); // Set the generated or provided slug
         Advert savedAdvert = advertRepository.save(advert);
-        return AdvertMapper.toAdvertResponse(savedAdvert);
+        return advertMapper.toAdvertResponse(savedAdvert);
     }
 
     public Page<AdvertResponse> getTheAdvertsByPage(String q, Integer advertTypeId,
@@ -53,19 +69,65 @@ public class AdvertService {
                                                     Integer status, int page, int size, String sort, String type) {
         Pageable pageable = pageableHelper.getPageable(page, size, sort, type);
         return advertRepository.findAdvertsByCriteria(q, advertTypeId, priceStart, priceEnd, location, status, pageable)
-                .map(AdvertMapper::toAdvertResponse);
+                .map(advertMapper::toAdvertResponse);
     }
 
-    public AdvertResponseForCity getCities(int cityId) {
-        List<CityResponse> cityResponses = advertRepository.findCityCountsByCityId(cityId);
-        if (cityResponses.isEmpty()) {
-            throw new ResourceNotFoundException(String.format(ErrorMessages.ADVERT_CITY_ID_NOT_FOUND_ERROR, cityId));
-        }
-        return AdvertResponseForCity.builder()
-                .cityResponses(cityResponses.toArray(new CityResponse[0]))
-                .build();
+    public List<CityResponseForAdvert> getCities(Long cityId) {
+       return  advertRepository.countAdvertsByCity();
     }
 
+
+
+    public List<CategoryResponseForAdvert> getCategories(Long categoryId) {
+
+        return advertRepository.countAdvertsByCategory();
+    }
+
+    public AdvertResponse getAdvertBySlug(AdvertRequest request) {
+
+        String slug = request.getSlug();
+
+        Advert advert = advertRepository.findBySlug(slug)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        String.format(ErrorMessages.ADVERT_SLUG_NOT_FOUND_ERROR, slug)));
+
+        return advertMapper.toAdvertResponse(advert);
+    }
+
+    public ResponseMessage<AdvertResponse> getAuthenticatedUserById(Long advertId, HttpServletRequest request) {
+
+       String email = (String) request.getAttribute("email");
+       if(!userRepository.existsByEmailEquals(email)){
+           return ResponseMessage.<AdvertResponse>builder()
+                   .status(HttpStatus.NOT_FOUND)
+                   .message(String.format(ErrorMessages.USER_NOT_FOUND_USER_MESSAGE, email))
+                   .build();
+
+       }else {
+
+
+           Advert advertToGet = advertRepository.findById(advertId).orElseThrow(() -> new ResourceNotFoundException(String.format(ErrorMessages.ADVERT_ID_NOT_FOUND_ERROR,advertId)));
+
+          User user = userRepository.findByEmailEquals(email);
+
+           if (advertToGet.getUserId() != user.getId()) {
+               return ResponseMessage.<AdvertResponse>builder()
+                       .status(HttpStatus.FORBIDDEN)
+                       .message(String.format(ErrorMessages.NOT_PERMITTED_METHOD_MESSAGE,user))
+                       .build();
+           }
+
+
+           AdvertResponse advertResponse = advertMapper.toAdvertResponse(advertToGet);
+
+           return ResponseMessage.<AdvertResponse>builder()
+                   .status(HttpStatus.OK)
+                   .message(String.format(SuccessMessages.ADVERT_FOUND_SUCCESS,advertId))
+                   .object(advertResponse)
+                   .build();
+
+       }
+    }
 
     public AdvertResponse getAdvertByAdminAndManager(Long advertId) {
 
@@ -141,7 +203,6 @@ public class AdvertService {
         advertToUpdate.setPrice(advertRequest.getPrice());
         advertToUpdate.setAdvertTypeId(advertRequest.getAdvertTypeId());
         advertToUpdate.setCountryId(advertRequest.getCountryId());
-        advertToUpdate.setCityId(advertRequest.getCityId());
         advertToUpdate.setDistrictId(advertRequest.getDistrictId());
         // TODO pending'de kaldığı için aktif olmayacak. Admin veya manager active yapacak. Meetingde sor.
         advertToUpdate.setActive(false);
@@ -182,7 +243,6 @@ public class AdvertService {
         advertToUpdate.setPrice(advertRequest.getPrice());
         advertToUpdate.setAdvertTypeId(advertRequest.getAdvertTypeId());
         advertToUpdate.setCountryId(advertRequest.getCountryId());
-        advertToUpdate.setCityId(advertRequest.getCityId());
         advertToUpdate.setDistrictId(advertRequest.getDistrictId());
         // TODO pending'de kaldığı için aktif olmayacak. Admin veya manager active yapacak. Meetingde sor.
         advertToUpdate.setActive(false);
@@ -205,5 +265,7 @@ public class AdvertService {
 
 
     }
+
+
 
 }

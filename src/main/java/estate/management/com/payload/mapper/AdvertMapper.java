@@ -7,14 +7,11 @@ import estate.management.com.domain.administrative.City;
 import estate.management.com.domain.advert.Advert;
 import estate.management.com.domain.category.CategoryPropertyKey;
 import estate.management.com.domain.category.CategoryPropertyValue;
-import estate.management.com.payload.request.ImageRequest;
 import estate.management.com.payload.request.advert.AdvertRequest;
 
-import estate.management.com.payload.request.advert.PropertyRequest;
 import estate.management.com.payload.response.ImageResponse;
-import estate.management.com.payload.response.concrete.CityResponse;
+import estate.management.com.payload.response.concrete.advert.CityResponseForAdvert;
 import estate.management.com.payload.response.concrete.advert.AdvertResponse;
-import estate.management.com.payload.response.concrete.advert.AdvertResponseForCity;
 import estate.management.com.payload.response.concrete.advert.PropertyResponse;
 import lombok.Data;
 import org.springframework.stereotype.Component;
@@ -25,7 +22,7 @@ import java.util.stream.Collectors;
 @Component
 public class AdvertMapper {
 
-    public static AdvertResponse toAdvertResponse(Advert advert) {
+    public  AdvertResponse toAdvertResponse(Advert advert) {
         return AdvertResponse.builder()
                 .id(advert.getId())
                 .title(advert.getTitle())
@@ -33,13 +30,13 @@ public class AdvertMapper {
                 .price(advert.getPrice())
                 .advertTypeId(advert.getAdvertTypeId())
                 .countryId(advert.getCountryId())
-                .cityId(advert.getCityId())
                 .districtId(advert.getDistrictId())
                 .location(advert.getLocation())
                 .isActive(advert.isActive())
                 .viewCount(advert.getViewCount())
+                .slug(advert.getSlug())
                 .properties(
-                        advert.getCategoryPropertyValue().stream().map(
+                        advert.getCategoryPropertyValues().stream().map(
                                 prop -> PropertyResponse.builder()
                                         .keyId(prop.getCategoryPropertyKey().getId())
                                         .value(prop.getValue())
@@ -58,17 +55,17 @@ public class AdvertMapper {
                 )
                 .build();
     }
-    public static Advert toAdvert(AdvertRequest advertRequest) {
+    public Advert toAdvert(AdvertRequest advertRequest) {
         return Advert.builder()
                 .title(advertRequest.getTitle())
                 .description(advertRequest.getDescription())
                 .price(advertRequest.getPrice())
                 .advertTypeId(advertRequest.getAdvertTypeId())
                 .countryId(advertRequest.getCountryId())
-                .cityId(advertRequest.getCityId())
                 .districtId(advertRequest.getDistrictId())
                 .location(advertRequest.getLocation())
-                .categoryPropertyValue(
+                .slug(advertRequest.getSlug())
+                .categoryPropertyValues(
                         advertRequest.getProperties().stream().map(
                                 prop -> CategoryPropertyValue.builder()
                                         .categoryPropertyKey(CategoryPropertyKey.builder().id(prop.getKeyId()).build())
@@ -89,16 +86,7 @@ public class AdvertMapper {
                 .build();
     }
 
-    public CityResponse mapCityToCityResponse(City city) {
-        return CityResponse.builder()
-                .city(city.getName())
-                .build();
-    }
 
-    public AdvertResponseForCity mapCitiesToAdvertCityResponse(List<CityResponse> cityResponses) {
-        return AdvertResponseForCity.builder()
-                .cityResponses(cityResponses.toArray(new CityResponse[0]))
-                .build();
-    }
+
 
 }
