@@ -30,7 +30,7 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
     private final CategoryPropertyKeyRepository categoryPropertyKeyRepository;
     private final CategoryPropertyValueRepository categoryPropertyValueRepository;
-    private final AdvertRepository advertTypeRepository;
+    private final AdvertRepository advertRepository;
     private final CategoryMapper categoryMapper;
     private final PageableHelper pageableHelper;
 
@@ -112,9 +112,13 @@ public class CategoryService {
                 .orElseThrow(() -> new ResourceNotFoundException("Category not found with id: " + id));
         if (category.getBuilt_in()) {
             throw new OperationNotAllowedException("Cannot delete built-in true category");}
-        if (advertTypeRepository.existsByCategoryId(id)) {
-            throw new OperationNotAllowedException("Cannot delete category with related adverts");}
+
+        if (advertRepository.existsByCategory(category)) {
+            throw new OperationNotAllowedException("Cannot delete category with related adverts");
+        }
+
         categoryRepository.delete(category);
+
         CategoryResponse categoryResponse = categoryMapper.mapCategoryToCategoryResponse(category);
         return ResponseMessage.builder()
                 .message(SuccessMessages.CATEGORY_DELETED_SUCCESS)

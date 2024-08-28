@@ -14,10 +14,13 @@ import java.time.LocalDateTime;
 
 import java.util.ArrayList;
 import java.util.List;
-    @Data
+
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder(toBuilder = true)
+    @Getter
+    @Setter
+
     @Entity
     @Table(name = "category")
     public class Category {
@@ -52,7 +55,13 @@ import java.util.List;
         @Column(name = "isActive", nullable = false)
         @NotNull(message = "isActive cannot be null")
         private boolean isActive = true;
-      
+
+        public void setIsActive(boolean isActive) {
+            this.isActive = isActive;
+        }
+
+
+
         @Column(name = "create_at", nullable = false)
         @NotNull(message = "creation cannot be null")
         @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
@@ -84,6 +93,9 @@ import java.util.List;
     private void onUpdate() {
         updateAt = LocalDateTime.now();
     }
-}
+
+
+
+    }
 
      
