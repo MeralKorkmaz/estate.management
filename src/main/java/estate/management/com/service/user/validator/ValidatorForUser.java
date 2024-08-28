@@ -44,24 +44,24 @@ public class ValidatorForUser {
         }
 
     }
-public void uniqueEmail(String email){
+    public void uniqueEmail(String email){
         if(userRepository.existsByEmailEquals(email)){
             throw new IllegalArgumentException(ErrorMessages.ALREADY_REGISTER_MESSAGE_EMAIL);
         }
     }
 
-public void confirmPasswordCheck(String password, String confirmpassword) {
-    if (!password.equals(confirmpassword)) {
-        throw new IllegalArgumentException(ErrorMessages.PASSWORD_NOT_MATCH);
-    }
-
-}
-
-public void checkBuiltin(User user){
-    if (Boolean.TRUE.equals(user.getBuilt_in())) {
-        throw new BadRequestException(ErrorMessages.NOT_PERMITTED_METHOD_MESSAGE);
+    public void confirmPasswordCheck(String password, String confirmpassword) {
+        if (!password.equals(confirmpassword)) {
+            throw new IllegalArgumentException(ErrorMessages.PASSWORD_NOT_MATCH);
+        }
 
     }
-}
+
+    public void checkBuiltin(User user){
+        if (Boolean.TRUE.equals(user.getBuilt_in())) {
+            throw new BadRequestException(ErrorMessages.NOT_PERMITTED_METHOD_MESSAGE);
+
+        }
+    }
 
 }

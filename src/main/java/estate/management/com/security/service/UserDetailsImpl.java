@@ -1,5 +1,6 @@
 package estate.management.com.security.service;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -77,13 +78,13 @@ public class UserDetailsImpl implements UserDetails {
     }
 
     public boolean equals(Object o){
-        if(this == o){
-            return true;
-        }
-        if(o == null || getClass()!= o.getClass()){
-            return false;
-        }
-        UserDetailsImpl user= (UserDetailsImpl) o;
-        return Objects.equals(id, user.getId());
+      if(this == o){
+          return true;
+      }
+      if(o == null || getClass()!= o.getClass()){
+          return false;
+      }
+      UserDetailsImpl user= (UserDetailsImpl) o;
+      return Objects.equals(id, user.getId());
     }
 }

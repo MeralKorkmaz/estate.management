@@ -283,13 +283,13 @@ public class UserService {
             throw new ResourceNotFoundException(String.format(ErrorMessages.NOT_FOUND_USER_MESSAGE, forgotPasswordRequest.getEmail()));
         }
         String code = resetCode.generateResetCode();
-       MailPayload mailPayload= MailPayload.builder()
+        MailPayload mailPayload= MailPayload.builder()
                 .from(mailaddress)
                 .to(mail)
                 .subject("Luvenda Real Estate!!! Password Reset Code")
                 .text("Luvenda Real Estate Your password reset code is: " + code)
                 .build();
-emailService.sendEmail(mailPayload);
+        emailService.sendEmail(mailPayload);
 
         return SuccessMessages.FORGOT_PASSWORD_RESET_CODE_EMAIL_SEND;
     }

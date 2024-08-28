@@ -50,9 +50,9 @@ public class FavoriteService {
         // TODO userId User'da Long Favorite'da int type casting yaptım ancak hata verme olasılığı var. Meeting'de sor
         int userId = user.getId().intValue();
 
-         List<FavoriteResponse> responses = favoriteRepository.findAllByUserId(userId).stream().map(
-                 favoriteMapper::mapFavoriteToFavoriteResponse
-         ).collect(Collectors.toList());
+        List<FavoriteResponse> responses = favoriteRepository.findAllByUserId(userId).stream().map(
+                favoriteMapper::mapFavoriteToFavoriteResponse
+        ).collect(Collectors.toList());
 
          /* TODO Bu bölüm gerekli olmayabilir. Boşsa exception mı atsın boş list mi getirsin?
          if (responses.isEmpty()){
@@ -61,7 +61,7 @@ public class FavoriteService {
          */
 
 
-         return responses;
+        return responses;
 
 
     }

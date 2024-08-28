@@ -20,6 +20,7 @@ import java.util.List;
 public class City {
 
     @Id
+
     @GeneratedValue(strategy = GenerationType.IDENTITY) //changed form AUTO to IDENTITY
     @Setter(AccessLevel.NONE)
     private Long id;

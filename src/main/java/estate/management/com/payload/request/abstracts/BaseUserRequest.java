@@ -9,7 +9,7 @@ import lombok.experimental.SuperBuilder;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BaseUserRequest extends AbstractUserRequest {
+public class BaseUserRequest extends AbstractUserRequest{
 
     //validation ekle
 

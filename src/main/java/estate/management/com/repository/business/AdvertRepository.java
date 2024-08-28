@@ -1,49 +1,55 @@
 
-package estate.management.com.repository.business;
+package estate.management.com.payload.request.advert;
 
-import estate.management.com.domain.advert.Advert;
-import estate.management.com.payload.response.concrete.advert.CategoryResponseForAdvert;
-import estate.management.com.payload.response.concrete.advert.CityResponseForAdvert;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import estate.management.com.payload.request.ImageRequest;
+import lombok.*;
 
+import javax.persistence.Column;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
-@Repository
-public interface AdvertRepository extends JpaRepository<Advert, Long> {
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder(toBuilder = true)
+public class AdvertRequest {
+    @NotNull(message = "Title cannot be null")
+    @Size(min = 5, max = 150, message = "Title must be between {min} and {max} characters")
+    private String title;
 
-    @Query("SELECT a FROM Advert a WHERE " +
-            "(:q IS NULL OR (LOWER(a.title) LIKE LOWER(CONCAT('%', :q, '%')) OR LOWER(a.description) LIKE LOWER(CONCAT('%', :q, '%')))) AND " +
-            "(:advertTypeId IS NULL OR a.advertTypeId = :advertTypeId) AND " +
-            "(:priceStart IS NULL OR a.price >= :priceStart) AND " +
-            "(:priceEnd IS NULL OR a.price <= :priceEnd) AND " +
-            "(:location IS NULL OR a.location = :location) AND " +
-            "(:status IS NULL OR a.status = :status) AND " +
-            "a.isActive = true")
-    Page<Advert> findAdvertsByCriteria(@Param("q") String q,
-                                       @Param("advertTypeId") Integer advertTypeId,
-                                       @Param("priceStart") Double priceStart,
-                                       @Param("priceEnd") Double priceEnd,
-                                       @Param("location") String location,
-                                       @Param("status") Integer status,
-                                       Pageable pageable);
+    @NotNull(message = "Description cannot be null")
+    @Size(max = 300, message = "Description can contain a maximum of {max} characters")
+    private String description;
 
-    @Query("SELECT new estate.management.com.payload.response.concrete.advert.CityResponseForAdvert(c.name,COUNT(a))"
-    + "FROM Advert a JOIN a.city c " +
-            "GROUP BY c.name")
-    List<CityResponseForAdvert> countAdvertsByCity();
-    @Query("SELECT new estate.management.com.payload.response.concrete.advert.CategoryResponseForAdvert(c.title, COUNT(a)) " +
-            "FROM Advert a JOIN a.category c " +
-            "GROUP BY c.title")
-    List<CategoryResponseForAdvert> countAdvertsByCategory();
+    @NotNull(message = "Price cannot be null")
+    private Double price;
 
+    @NotNull(message = "Advert Type ID cannot be null")
+    private int advertTypeId;
 
-    boolean existsBySlug(String slug);
+    @NotNull(message = "Country ID cannot be null")
+    private int countryId;
 
-    Optional<Advert> findBySlug(String slug);
+    @NotNull(message = "City ID cannot be null")
+    private int cityId;
+
+    @NotNull(message = "District ID cannot be null")
+    private int districtId;
+
+    @NotNull(message = "Location cannot be null")
+    private String location;
+
+    @NotNull(message = "Images cannot be null")
+    private List<ImageRequest> images;
+
+    @NotNull(message = "Properties cannot be null")
+    private List<PropertyRequest> properties;
+
+    @Column(name = "slug", nullable = false, length = 200)
+    @NotNull(message = "Slug cannot be null")
+    @Size(min = 5, max = 200,  message = "Slug must be between {min} and {max} characters")
+    private String slug;
 }

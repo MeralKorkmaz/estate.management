@@ -100,10 +100,16 @@ public class WebSecurityConfig {
             "/css/**",
             "/js/**",
             "/contactMessages/save",
+            "/auth/login",
+            "/advert-types",
+            "/countries",
+            "/cities",
+            "/districts",
             "/users/login",
             "/users/register",
-            "/users/forgot-password",
-            "/mail/send"
+            "/categories",
+            "/categories/*",
+            "/categories/slug/**"
     };
 
 
