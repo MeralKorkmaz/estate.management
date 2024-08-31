@@ -53,8 +53,8 @@ public class AdvertTypeService {
 
         return ResponseMessage.<AdvertTypeResponse>builder()
                 .message(SuccessMessages.ADVERT_TYPE_CREATED_SUCCESS)
-                .returnBody(advertTypeMapper.mapAdvertTypeToAdvertTypeResponse(savedAdvertType))
-                .httpStatus(HttpStatus.CREATED)
+                .object(advertTypeMapper.mapAdvertTypeToAdvertTypeResponse(savedAdvertType))
+                .status(HttpStatus.CREATED)
                 .build();
 
     }
@@ -75,8 +75,8 @@ public class AdvertTypeService {
         //Returning response message
         return ResponseMessage.<AdvertTypeResponse>builder()
                 .message(SuccessMessages.ADVERT_TYPE_UPDATED_SUCCESS)
-                .returnBody(advertTypeMapper.mapAdvertTypeToAdvertTypeResponse(updatedAdvertType))
-                .httpStatus(HttpStatus.OK)
+                .object(advertTypeMapper.mapAdvertTypeToAdvertTypeResponse(updatedAdvertType))
+                .status(HttpStatus.OK)
                 .build();
     }
 
@@ -95,7 +95,7 @@ public class AdvertTypeService {
             if (isAdvertTypeRelatedToAnAdvert) {
                 return ResponseMessage.<AdvertTypeResponse>builder()
                         .message(ErrorMessages.ADVERT_TYPE_HAS_ASSOCIATED_ADVERTS_ERROR)
-                        .httpStatus(HttpStatus.BAD_REQUEST)
+                        .status(HttpStatus.BAD_REQUEST)
                         .build();
             }
 
@@ -109,8 +109,8 @@ public class AdvertTypeService {
             //return
             return ResponseMessage.<AdvertTypeResponse>builder()
                     .message(SuccessMessages.ADVERT_TYPE_DELETED_SUCCESS)
-                    .returnBody(advertTypeResponse)
-                    .httpStatus(HttpStatus.OK)
+                    .object(advertTypeResponse)
+                    .status(HttpStatus.OK)
                     .build();
 
     }

@@ -58,6 +58,8 @@ public class SuccessMessages {
     public static final String CATEGORY_FOUND_SUCCESS = "Category with %s id found successfully!";
     public static final String CATEGORY_PROPERTY_FOUND_SUCCESS = "Category Property Key with %s id found successfully!";
     public static final String CATEGORY_SLUG_FOUND_SUCCESS = "Category with %s slug found successfully!";
+    public static final String CATEGORY_PROPERTY_KEY_UPDATE = "Category keys updated successfully!";
+
 
     // SUCCESS MESSAGES FOR ADVERT TYPES:
     public static final String ADVERT_TYPE_CREATED_SUCCESS = "Advert type created successfully!";
@@ -87,4 +89,14 @@ public class SuccessMessages {
     public static final String FAVORITE_ADDED_SUCCESS = "Favorite added successfully!";
     public static final String FAVORITE_REMOVED_SUCCESS = "Favorite removed successfully!";
     public static final String FAVORITE_FOUND_SUCCESS = "Favorite with %s id found successfully!";
+
+
+    public static final String PASSWORD_CHANGED_RESPONSE_MESSAGE = "Password is  Changed Successfully" ;
+    public static final String CUSTOMER_REGISTER_SUCCESS = "Customer is  registered Successfully" ;
+    public static final String USER_DELETE_BY_ADMIN_OR_MANAGER = "User is  Deleted Successfully" ;
+    public static final String USER_UPDATE_MESSAGE = "User is  updated Successfully" ;
+    public static final String USER_FOUND = "User is Found Successfully";
+    public static final String USER_DELETE_BY_CUSTOMER = "User is Deleted by itself";
+    public static final String FORGOT_PASSWORD_RESET_CODE_EMAIL_SEND = "mailinize reset kod gonderildi";
+
 }
