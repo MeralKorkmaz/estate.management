@@ -25,4 +25,6 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
 
     // Method that returns number of published categories.
     long countByIsActive(boolean isActive);
+
+    Optional<Category> findByTitle(String title);
 }
