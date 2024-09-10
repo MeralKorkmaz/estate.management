@@ -31,7 +31,7 @@ public class ContactMessageController {
             @RequestParam(value = "status", required = false) Integer status,
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "20") int size,
-            @RequestParam(value = "sort", defaultValue = "category_id") String sort,
+            @RequestParam(value = "sort", defaultValue = "createAt") String sort,
             @RequestParam(value = "type", defaultValue = "asc") String type) {
         return contactMessageService.getContactMessages(q,status,page,size,sort,type);
     }
@@ -42,7 +42,7 @@ public class ContactMessageController {
         return ResponseEntity.ok(contactMessageService.getContactMessageById(id));
     }
 
-    @DeleteMapping("/id")
+    @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('Admin', 'Manager')")
     public ResponseEntity<String> deleteById (@PathVariable Long id){
         return ResponseEntity.ok(contactMessageService.deleteById(id));
