@@ -2,10 +2,12 @@
 package estate.management.com.repository.business;
 
 import estate.management.com.domain.advert.Advert;
-import estate.management.com.domain.category.Category;
+import estate.management.com.payload.response.concrete.advert.AdvertResponse;
 import estate.management.com.payload.response.concrete.advert.CategoryResponseForAdvert;
 import estate.management.com.payload.response.concrete.advert.CityResponseForAdvert;
+import org.apache.commons.lang3.function.Failable;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -48,5 +50,29 @@ public interface AdvertRepository extends JpaRepository<Advert, Long> {
 
     Optional<Advert> findBySlug(String slug);
 
-    boolean existsByCategory(Category category);
+
+
+    @Query("SELECT a FROM Advert a ORDER BY (3 * a.tourRequests.size + a.viewCount) DESC")
+    List<Advert> findMostPopularAdverts(Pageable pageable);
+
+
+    @Query("SELECT a FROM Advert a WHERE " +
+            "(a.category.id = :categoryId OR :categoryId IS NULL) AND " +
+            "(a.advertTypeId = :advertTypeId OR :advertTypeId IS NULL) AND " +
+            "(a.status = :status OR :status IS NULL) AND " +
+            "(a.price BETWEEN :priceStart AND :priceEnd OR (:priceStart IS NULL AND :priceEnd IS NULL)) AND " +
+            "(a.title LIKE %:query% OR a.description LIKE %:query% OR :query IS NULL)"
+    )
+    Page<Advert> findByCriteria(
+            @Param("query") String query,
+            @Param("categoryId") Integer categoryId,
+            @Param("advertTypeId") Integer advertTypeId,
+            @Param("priceStart") Double priceStart,
+            @Param("priceEnd") Double priceEnd,
+            @Param("status") Integer status,
+            Pageable pageable
+    );
+
+
+    Page<Advert> findByUserId(int userId, Pageable pageable);
 }
