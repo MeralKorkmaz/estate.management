@@ -1,3 +1,4 @@
+
 package estate.management.com.payload.request.advert;
 
 import lombok.AllArgsConstructor;

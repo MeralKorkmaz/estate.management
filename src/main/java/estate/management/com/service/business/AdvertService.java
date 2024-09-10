@@ -1,5 +1,6 @@
 
 
+
 package estate.management.com.service.business;
 
 import estate.management.com.domain.advert.Advert;
@@ -20,14 +21,19 @@ import estate.management.com.repository.business.ImageRepository;
 import estate.management.com.service.helper.PageableHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.Normalizer;
 import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -53,13 +59,13 @@ public class AdvertService {
             slug = generateSlug(advertRequest.getTitle());
         }
 
-        // Check for unique slug
+
         if (advertRepository.existsBySlug(slug)) {
             throw new RuntimeException("Slug already exists");
         }
 
         Advert advert = advertMapper.toAdvert(advertRequest);
-        advert.setSlug(slug); // Set the generated or provided slug
+        advert.setSlug(slug);
         Advert savedAdvert = advertRepository.save(advert);
         return advertMapper.toAdvertResponse(savedAdvert);
     }
@@ -73,7 +79,7 @@ public class AdvertService {
     }
 
     public List<CityResponseForAdvert> getCities(Long cityId) {
-       return  advertRepository.countAdvertsByCity();
+        return  advertRepository.countAdvertsByCity();
     }
 
 
@@ -94,39 +100,87 @@ public class AdvertService {
         return advertMapper.toAdvertResponse(advert);
     }
 
+
+
+    public List<AdvertResponse> getMostPopularAdverts(Long amount) {
+        int pageSize = amount != null ? amount.intValue() : 10;
+        return advertRepository.findMostPopularAdverts(PageRequest.of(0, pageSize))
+                .stream()
+                .map(advertMapper::toAdvertResponse)
+                .collect(Collectors.toList());
+    }
+
+
+
+    public List<AdvertResponse> getUserAdverts(Authentication authentication, int page, int size, String sort, String type) {
+        // Extract email from Authentication object
+        String email = (String) authentication.getPrincipal();
+
+        // Fetch user ID based on the email
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
+        int userId = user.getId().intValue();
+
+        Pageable pageable = PageRequest.of(page, size,
+                "asc".equalsIgnoreCase(type) ? Sort.by(sort).ascending() : Sort.by(sort).descending());
+
+        Page<Advert> advertPage = advertRepository.findByUserId(userId, pageable);
+        return advertPage.getContent().stream()
+                .map(advertMapper::toAdvertResponse)
+                .collect(Collectors.toList());
+    }
+
+    public List<AdvertResponse> getAdverts(
+            String query,
+            Integer categoryId,
+            Integer advertTypeId,
+            Double priceStart,
+            Double priceEnd,
+            Integer status,
+            Pageable pageable
+    ) {
+
+        Page<Advert> advertPage = advertRepository.findByCriteria(query, categoryId, advertTypeId, priceStart, priceEnd, status, pageable);
+
+
+        return advertPage.stream()
+                .map(advertMapper::toAdvertResponse)
+                .collect(Collectors.toList());
+    }
+
     public ResponseMessage<AdvertResponse> getAuthenticatedUserById(Long advertId, HttpServletRequest request) {
 
-       String email = (String) request.getAttribute("email");
-       if(!userRepository.existsByEmailEquals(email)){
-           return ResponseMessage.<AdvertResponse>builder()
-                   .status(HttpStatus.NOT_FOUND)
-                   .message(String.format(ErrorMessages.USER_NOT_FOUND_USER_MESSAGE, email))
-                   .build();
+        String email = (String) request.getAttribute("email");
+        if(!userRepository.existsByEmailEquals(email)){
+            return ResponseMessage.<AdvertResponse>builder()
+                    .status(HttpStatus.NOT_FOUND)
+                    .message(String.format(ErrorMessages.USER_NOT_FOUND_USER_MESSAGE, email))
+                    .build();
 
-       }else {
-
-
-           Advert advertToGet = advertRepository.findById(advertId).orElseThrow(() -> new ResourceNotFoundException(String.format(ErrorMessages.ADVERT_ID_NOT_FOUND_ERROR,advertId)));
-
-          User user = userRepository.findByEmailEquals(email);
-
-           if (advertToGet.getUserId() != user.getId()) {
-               return ResponseMessage.<AdvertResponse>builder()
-                       .status(HttpStatus.FORBIDDEN)
-                       .message(String.format(ErrorMessages.NOT_PERMITTED_METHOD_MESSAGE,user))
-                       .build();
-           }
+        }else {
 
 
-           AdvertResponse advertResponse = advertMapper.toAdvertResponse(advertToGet);
+            Advert advertToGet = advertRepository.findById(advertId).orElseThrow(() -> new ResourceNotFoundException(String.format(ErrorMessages.ADVERT_ID_NOT_FOUND_ERROR,advertId)));
 
-           return ResponseMessage.<AdvertResponse>builder()
-                   .status(HttpStatus.OK)
-                   .message(String.format(SuccessMessages.ADVERT_FOUND_SUCCESS,advertId))
-                   .object(advertResponse)
-                   .build();
+            User user = userRepository.findByEmailEquals(email);
 
-       }
+            if (advertToGet.getUserId() != user.getId()) {
+                return ResponseMessage.<AdvertResponse>builder()
+                        .status(HttpStatus.FORBIDDEN)
+                        .message(String.format(ErrorMessages.NOT_PERMITTED_METHOD_MESSAGE,user))
+                        .build();
+            }
+
+
+            AdvertResponse advertResponse = advertMapper.toAdvertResponse(advertToGet);
+
+            return ResponseMessage.<AdvertResponse>builder()
+                    .status(HttpStatus.OK)
+                    .message(String.format(SuccessMessages.ADVERT_FOUND_SUCCESS,advertId))
+                    .object(advertResponse)
+                    .build();
+
+        }
     }
 
     public AdvertResponse getAdvertByAdminAndManager(Long advertId) {
@@ -209,13 +263,13 @@ public class AdvertService {
         advertToUpdate.setStatus(0);
 
 
-        // Save the updated advert
+
         advertRepository.save(advertToUpdate);
 
-        // Map the updated advert to AdvertResponse
+
         AdvertResponse advertResponse = advertMapper.toAdvertResponse(advertToUpdate);
 
-        // Return the response with the updated advert
+
         return ResponseMessage.<AdvertResponse>builder()
                 .status(HttpStatus.OK)
                 .message("Advert updated successfully.")
@@ -249,13 +303,11 @@ public class AdvertService {
         advertToUpdate.setStatus(0);
 
 
-        // Save the updated advert
+
         advertRepository.save(advertToUpdate);
 
-        // Map the updated advert to AdvertResponse
         AdvertResponse advertResponse = advertMapper.toAdvertResponse(advertToUpdate);
 
-        // Return the response with the updated advert
         return ResponseMessage.<AdvertResponse>builder()
                 .status(HttpStatus.OK)
                 .message("Advert updated successfully.")

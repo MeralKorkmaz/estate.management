@@ -1,7 +1,9 @@
 
+
 package estate.management.com.repository.business;
 
 import estate.management.com.domain.advert.Advert;
+import estate.management.com.domain.category.Category;
 import estate.management.com.payload.response.concrete.advert.AdvertResponse;
 import estate.management.com.payload.response.concrete.advert.CategoryResponseForAdvert;
 import estate.management.com.payload.response.concrete.advert.CityResponseForAdvert;
@@ -54,6 +56,8 @@ public interface AdvertRepository extends JpaRepository<Advert, Long> {
 
     @Query("SELECT a FROM Advert a ORDER BY (3 * a.tourRequests.size + a.viewCount) DESC")
     List<Advert> findMostPopularAdverts(Pageable pageable);
+
+    boolean existsByCategory(Category category);
 
 
     @Query("SELECT a FROM Advert a WHERE " +

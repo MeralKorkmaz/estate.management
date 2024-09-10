@@ -367,4 +367,32 @@ Caused by: org.hibernate.AnnotationException: mappedBy reference an unknown targ
 ""2024-08-28 12:24:35,635 INFO  [SpringApplicationShutdownHook] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean:Closing JPA EntityManagerFactory for persistence unit 'default'
 ""2024-08-28 12:24:35,638 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown initiated...
 ""2024-08-28 12:24:35,652 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown completed.
+""2024-09-10 16:15:10,077 INFO  [restartedMain] estate.management.com.EstateManagementApplication:Starting EstateManagementApplication using Java 17.0.10 on meralKorkmaz with PID 13032 (C:\Users\korkm\Downloads\EstateManagement\target\classes started by korkm in C:\Users\korkm\Downloads\EstateManagement)
+""2024-09-10 16:15:10,079 INFO  [restartedMain] estate.management.com.EstateManagementApplication:No active profile set, falling back to 1 default profile: "default"
+""2024-09-10 16:15:10,146 INFO  [restartedMain] org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor:Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+""2024-09-10 16:15:10,146 INFO  [restartedMain] org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor:For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+""2024-09-10 16:15:11,759 INFO  [restartedMain] org.springframework.data.repository.config.RepositoryConfigurationDelegate:Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+""2024-09-10 16:15:11,889 INFO  [restartedMain] org.springframework.data.repository.config.RepositoryConfigurationDelegate:Finished Spring Data repository scanning in 118 ms. Found 12 JPA repository interfaces.
+""2024-09-10 16:15:12,593 INFO  [restartedMain] org.springframework.boot.web.embedded.tomcat.TomcatWebServer:Tomcat initialized with port(s): 8081 (http)
+""2024-09-10 16:15:12,602 INFO  [restartedMain] org.apache.catalina.core.StandardService:Starting service [Tomcat]
+""2024-09-10 16:15:12,602 INFO  [restartedMain] org.apache.catalina.core.StandardEngine:Starting Servlet engine: [Apache Tomcat/9.0.68]
+""2024-09-10 16:15:12,676 INFO  [restartedMain] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]:Initializing Spring embedded WebApplicationContext
+""2024-09-10 16:15:12,676 INFO  [restartedMain] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext:Root WebApplicationContext: initialization completed in 2529 ms
+""2024-09-10 16:15:12,839 INFO  [restartedMain] org.hibernate.jpa.internal.util.LogHelper:HHH000204: Processing PersistenceUnitInfo [name: default]
+""2024-09-10 16:15:12,884 INFO  [restartedMain] org.hibernate.Version:HHH000412: Hibernate ORM core version 5.6.12.Final
+""2024-09-10 16:15:13,040 INFO  [restartedMain] org.hibernate.annotations.common.Version:HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+""2024-09-10 16:15:13,144 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Starting...
+""2024-09-10 16:15:13,296 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Start completed.
+""2024-09-10 16:15:13,313 INFO  [restartedMain] org.hibernate.dialect.Dialect:HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL81Dialect
+""2024-09-10 16:15:14,553 INFO  [restartedMain] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator:HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+""2024-09-10 16:15:14,561 INFO  [restartedMain] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean:Initialized JPA EntityManagerFactory for persistence unit 'default'
+""2024-09-10 16:15:15,239 WARN  [restartedMain] org.hibernate.orm.deprecation:HHH90000016: Found use of deprecated 'collection property' syntax in HQL/JPQL query [a.tourRequests.size]; use collection function syntax instead [size(a.tourRequests)].
+""2024-09-10 16:15:15,757 WARN  [restartedMain] org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration:spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+""2024-09-10 16:15:16,280 INFO  [restartedMain] org.springframework.security.web.DefaultSecurityFilterChain:Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@57d42de9, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@46016381, org.springframework.security.web.context.SecurityContextPersistenceFilter@41e5ea24, org.springframework.security.web.header.HeaderWriterFilter@414e0845, org.springframework.web.filter.CorsFilter@e668599, org.springframework.security.web.authentication.logout.LogoutFilter@3e592843, estate.management.com.security.jwt.AuthTokenFilter@380153bb, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@23237baa, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@35ae3dff, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@1aadd1e5, org.springframework.security.web.session.SessionManagementFilter@7a8dcdb7, org.springframework.security.web.access.ExceptionTranslationFilter@77ef8f94, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@35c48002]
+""2024-09-10 16:15:16,625 INFO  [restartedMain] org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer:LiveReload server is running on port 35729
+""2024-09-10 16:15:16,674 INFO  [restartedMain] org.springframework.boot.web.embedded.tomcat.TomcatWebServer:Tomcat started on port(s): 8081 (http) with context path ''
+""2024-09-10 16:15:16,688 INFO  [restartedMain] estate.management.com.EstateManagementApplication:Started EstateManagementApplication in 7.073 seconds (JVM running for 7.841)
+""2024-09-10 16:15:20,285 INFO  [SpringApplicationShutdownHook] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean:Closing JPA EntityManagerFactory for persistence unit 'default'
+""2024-09-10 16:15:20,291 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown initiated...
+""2024-09-10 16:15:20,304 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown completed.
 "

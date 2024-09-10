@@ -1,5 +1,6 @@
 
 
+
 package estate.management.com.payload.mapper;
 
 import estate.management.com.domain.Image;
@@ -35,6 +36,7 @@ public class AdvertMapper {
                 .isActive(advert.isActive())
                 .viewCount(advert.getViewCount())
                 .slug(advert.getSlug())
+                .viewCount(advert.getViewCount())
                 .properties(
                         advert.getCategoryPropertyValues().stream().map(
                                 prop -> PropertyResponse.builder()
@@ -65,6 +67,7 @@ public class AdvertMapper {
                 .districtId(advertRequest.getDistrictId())
                 .location(advertRequest.getLocation())
                 .slug(advertRequest.getSlug())
+                .viewCount(advertRequest.getViewCount())
                 .categoryPropertyValues(
                         advertRequest.getProperties().stream().map(
                                 prop -> CategoryPropertyValue.builder()
