@@ -52,4 +52,9 @@ public class AdvertRequest {
     @NotNull(message = "Slug cannot be null")
     @Size(min = 5, max = 200,  message = "Slug must be between {min} and {max} characters")
     private String slug;
+
+    @Column(name = "view_count", nullable = false)
+    @NotNull(message = "Cannot be null, default 0")
+    private int viewCount = 10;
+
 }

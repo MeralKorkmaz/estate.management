@@ -20,14 +20,19 @@ import estate.management.com.repository.business.ImageRepository;
 import estate.management.com.service.helper.PageableHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.Normalizer;
 import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -53,7 +58,7 @@ public class AdvertService {
             slug = generateSlug(advertRequest.getTitle());
         }
 
-        // Check for unique slug
+
         if (advertRepository.existsBySlug(slug)) {
             throw new RuntimeException("Slug already exists");
         }
@@ -92,6 +97,54 @@ public class AdvertService {
                         String.format(ErrorMessages.ADVERT_SLUG_NOT_FOUND_ERROR, slug)));
 
         return advertMapper.toAdvertResponse(advert);
+    }
+
+
+
+    public List<AdvertResponse> getMostPopularAdverts(Long amount) {
+        int pageSize = amount != null ? amount.intValue() : 10; // Default to 10 if amount is null
+        return advertRepository.findMostPopularAdverts(PageRequest.of(0, pageSize))
+                .stream()
+                .map(advertMapper::toAdvertResponse)
+                .collect(Collectors.toList());
+    }
+
+
+
+    public List<AdvertResponse> getUserAdverts(Authentication authentication, int page, int size, String sort, String type) {
+        // Extract email from Authentication object
+        String email = (String) authentication.getPrincipal();
+
+        // Fetch user ID based on the email
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
+        int userId = user.getId().intValue(); // Assuming User entity has a getId() method
+
+        Pageable pageable = PageRequest.of(page, size,
+                "asc".equalsIgnoreCase(type) ? Sort.by(sort).ascending() : Sort.by(sort).descending());
+
+        Page<Advert> advertPage = advertRepository.findByUserId(userId, pageable);
+        return advertPage.getContent().stream()
+                .map(advertMapper::toAdvertResponse)
+                .collect(Collectors.toList());
+    }
+
+    public List<AdvertResponse> getAdverts(
+            String query,
+            Integer categoryId,
+            Integer advertTypeId,
+            Double priceStart,
+            Double priceEnd,
+            Integer status,
+            Pageable pageable // Accept Pageable here
+    ) {
+        // Use the Pageable to fetch the correct page of results
+        Page<Advert> advertPage = advertRepository.findByCriteria(query, categoryId, advertTypeId, priceStart, priceEnd, status, pageable);
+
+        // Convert the Page of Advert entities to a List of AdvertResponse DTOs
+        return advertPage.stream()
+                .map(advertMapper::toAdvertResponse)
+                .collect(Collectors.toList());
     }
 
     public ResponseMessage<AdvertResponse> getAuthenticatedUserById(Long advertId, HttpServletRequest request) {

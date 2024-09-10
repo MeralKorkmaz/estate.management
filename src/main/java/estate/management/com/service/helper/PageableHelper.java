@@ -1,3 +1,4 @@
+
 package estate.management.com.service.helper;
 
 import org.springframework.data.domain.Pageable;
@@ -18,4 +19,5 @@ public class PageableHelper {
         }
         return pageable;
     }
+
 }
