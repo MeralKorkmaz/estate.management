@@ -99,7 +99,7 @@ public class WebSecurityConfig {
             "/images/**",
             "/css/**",
             "/js/**",
-            "/contactMessages/save",
+            "/contact-messages",
             "/auth/login",
             "/advert-types",
             "/countries",
