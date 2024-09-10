@@ -1,9 +1,8 @@
-package estate.management.com.domain;
+package estate.management.com.contactmessage.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.GroupSequence;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -14,8 +13,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-
-
 @Entity
 @Table(name = "contact")
 public class Contact {
@@ -25,28 +22,28 @@ public class Contact {
     private Long id;
 
     @Column(name ="first_name", nullable = false )
-    @Size(max = 30, message = "firstName cannot be less than {max}")
+    @Size(max = 30, message = "firstName cannot be more than {max} characters")
     @NotNull(message = "firstName cannot be null")
     private String firstName;
 
     @Column(name ="last_name", nullable = false )
-    @Size(max = 30, message = "lastName cannot be less than {max}")
+    @Size(max = 30, message = "lastName cannot be more than {max} characters")
     @NotNull(message = "lastName cannot be null")
     private String lastName;
 
     @Column(name ="email", nullable = false )
-    @Size(max = 60, message = "eMail cannot be less than {max}")
+    @Size(max = 60, message = "eMail cannot be more than {max} characters")
     @NotNull(message = "eMail cannot be null")
-    @Email
+    @Email(message = "Please enter valid email")
     private String eMail;
 
     @Column(name ="message", nullable = false )
-    @Size(max = 300, message = "firstName cannot be less than {max}")
-    @NotNull(message = "firstName cannot be null")
+    @Size(max = 300, message = "message cannot be more than {max} characters")
+    @NotNull(message = "message cannot be null")
     private String message;
 
     @Column(name ="status", nullable = false )
-    @NotNull(message = "firstName cannot be null")
+    @NotNull(message = "status cannot be null")
     private int status =0;
 
     @Column(name = "create_at", nullable = false)
