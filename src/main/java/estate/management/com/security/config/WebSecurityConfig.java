@@ -104,7 +104,12 @@ public class WebSecurityConfig {
             "/advert-types",
             "/countries",
             "/cities",
-            "/districts"
+            "/districts",
+            "/users/login",
+            "/users/register",
+            "/categories",
+            "/categories/*",
+            "/categories/slug/**"
     };
 
 

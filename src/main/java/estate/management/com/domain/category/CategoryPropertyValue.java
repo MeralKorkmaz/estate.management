@@ -1,6 +1,8 @@
+
 package estate.management.com.domain.category;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import estate.management.com.domain.advert.Advert;
 import lombok.*;
 
 import javax.persistence.*;
@@ -29,11 +31,13 @@ public class CategoryPropertyValue {
 
 
 
-    @Column(name = "advert_id")
-    private int advertId;
+    @ManyToOne
+    @JoinColumn(name = "advert_id")
+    private Advert advert;
 
 
-    @Column(name = "category_property_key_id")
-    private int categoryPropertyKeyId;
+    @ManyToOne
+    @JoinColumn(name = "category_property_key_id")
+    private CategoryPropertyKey categoryPropertyKey;
 
 }

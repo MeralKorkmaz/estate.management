@@ -1,9 +1,19 @@
+
 package estate.management.com.domain;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import lombok.AccessLevel;
-import lombok.Setter;
+
+import estate.management.com.domain.advert.Advert;
+import lombok.*;
+
+
+
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 
 @Entity
 @Table(name="images")
@@ -25,6 +35,10 @@ public class Image {
     private boolean featured=false;
 
 
-    @Column(name="advert_id",nullable = false)
-    private int advertId;
+    @ManyToOne
+    @JoinColumn(name = "advert_id")
+    private Advert advert;
+
+
+
 }

@@ -3,6 +3,7 @@ package estate.management.com.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import estate.management.com.domain.advert.Advert;
 import estate.management.com.domain.category.Category;
 import lombok.*;
 
@@ -22,7 +23,6 @@ public class TourRequest {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Setter(AccessLevel.NONE)
     private Long id;
 
     @Column(name = "tour_date", nullable = false)
@@ -42,9 +42,6 @@ public class TourRequest {
 
 
 
-    @Column(name = "advert_id", nullable = false)
-    @NotNull(message = "advert cannot be null")
-    private int advertId;
 
 
     @Column(name = "owner_user_id", nullable = false)
@@ -69,6 +66,10 @@ public class TourRequest {
     @JsonIgnore
     @JoinColumn(name = "tour_requests_id")
     private Category category;
+
+    @ManyToOne
+    @JoinColumn(name = "advert_id")
+    private Advert advert;
 
 
     @PrePersist
