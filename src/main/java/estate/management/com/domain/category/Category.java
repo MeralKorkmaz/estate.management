@@ -20,7 +20,6 @@ import java.util.List;
     @Builder(toBuilder = true)
     @Getter
     @Setter
-
     @Entity
     @Table(name = "category")
     public class Category {

@@ -1,4 +1,5 @@
-package estate.management.com.repository;
+package estate.management.com.repository.business;
+
 import estate.management.com.domain.category.Category;
 import estate.management.com.domain.category.CategoryPropertyKey;
 import org.springframework.data.domain.Page;
