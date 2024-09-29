@@ -1,9 +1,7 @@
 
 package estate.management.com.payload.response.concrete.advert;
 
-import estate.management.com.payload.request.ImageRequest;
-import estate.management.com.payload.request.advert.PropertyRequest;
-import estate.management.com.payload.response.ImageResponse;
+import estate.management.com.payload.response.image.ImageResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

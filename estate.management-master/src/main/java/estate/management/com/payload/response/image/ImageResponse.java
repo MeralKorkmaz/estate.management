@@ -1,4 +1,4 @@
-package estate.management.com.payload.response;
+package estate.management.com.payload.response.image;
 
 import lombok.*;
 

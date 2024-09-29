@@ -1,4 +1,4 @@
-package estate.management.com.payload.request;
+package estate.management.com.payload.request.Image;
 
 
 import lombok.AllArgsConstructor;

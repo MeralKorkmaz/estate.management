@@ -4,19 +4,17 @@
 package estate.management.com.payload.mapper;
 
 import estate.management.com.domain.Image;
-import estate.management.com.domain.administrative.City;
 import estate.management.com.domain.advert.Advert;
 import estate.management.com.domain.category.CategoryPropertyKey;
 import estate.management.com.domain.category.CategoryPropertyValue;
 import estate.management.com.payload.request.advert.AdvertRequest;
 
-import estate.management.com.payload.response.ImageResponse;
-import estate.management.com.payload.response.concrete.advert.CityResponseForAdvert;
+import estate.management.com.payload.response.image.ImageResponse;
 import estate.management.com.payload.response.concrete.advert.AdvertResponse;
 import estate.management.com.payload.response.concrete.advert.PropertyResponse;
 import lombok.Data;
 import org.springframework.stereotype.Component;
-import java.util.List;
+
 import java.util.stream.Collectors;
 
 @Data
