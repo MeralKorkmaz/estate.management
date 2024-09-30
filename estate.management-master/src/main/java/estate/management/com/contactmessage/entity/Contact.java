@@ -1,3 +1,4 @@
+
 package estate.management.com.contactmessage.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
