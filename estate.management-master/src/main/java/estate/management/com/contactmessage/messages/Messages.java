@@ -1,3 +1,4 @@
+
 package estate.management.com.contactmessage.messages;
 
 public class Messages {
