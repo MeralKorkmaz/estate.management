@@ -1,3 +1,4 @@
+
 package estate.management.com.contactmessage.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
