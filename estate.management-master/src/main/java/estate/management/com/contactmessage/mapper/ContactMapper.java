@@ -1,3 +1,4 @@
+
 package estate.management.com.contactmessage.mapper;
 
 import estate.management.com.contactmessage.dto.ContactRequest;
