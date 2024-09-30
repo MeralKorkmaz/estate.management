@@ -1,3 +1,4 @@
+
 package estate.management.com.contactmessage.repository;
 
 import estate.management.com.contactmessage.entity.Contact;
