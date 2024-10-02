@@ -30,6 +30,7 @@ public class Image {
     private String name;
     @Column(nullable = true)
     private String type;
+
     @Column(name="featured",nullable = false)
     @NotNull
     private boolean featured=false;

@@ -8,6 +8,7 @@ import estate.management.com.payload.response.image.ImageResponseForAdvert;
 import estate.management.com.service.business.ImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -41,5 +42,15 @@ public class ImageController {
         return ResponseEntity.ok(imageResponse);
     }
 
+    @DeleteMapping("/{image_ids}")
+    @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER','CUSTOMER')")
+    public ResponseEntity<String> deleteImages(@PathVariable List<Long> image_ids) {
+        return ResponseEntity.ok(imageService.deleteImages(image_ids));
+    }
+    @PutMapping("/{imageId}")
+    @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER','CUSTOMER')")
+    public ResponseEntity<ImageResponseForAdvert> setFeaturedImage(@PathVariable Long imageId) {
+        return ResponseEntity.ok(imageService.setFeaturedImage(imageId));
+    }
 
 }

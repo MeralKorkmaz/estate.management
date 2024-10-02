@@ -5,6 +5,7 @@ import estate.management.com.domain.advert.Advert;
 import estate.management.com.exception.ResourceNotFoundException;
 import estate.management.com.payload.mapper.ImageMapper;
 import estate.management.com.payload.message.ErrorMessages;
+import estate.management.com.payload.message.SuccessMessages;
 import estate.management.com.payload.request.Image.ImageRequestForAdvert;
 import estate.management.com.payload.response.image.ImageResponse;
 import estate.management.com.payload.response.image.ImageResponseForAdvert;
@@ -56,6 +57,43 @@ public class ImageService {
 
         Image image = imageRepository.findById(imageId)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format(ErrorMessages.IMAGE_ID_NOT_FOUND_ERROR,imageId)));
+
+
+        return imageMapper.toImageResponse(image);
+    }
+
+    public String deleteImages(List<Long> imageIds) {
+        List<Image> imagesToDelete = imageRepository.findAllById(imageIds);
+
+        if (imagesToDelete.isEmpty()) {
+            return ErrorMessages.IMAGE_ID_NOT_FOUND_ERROR;
+        }
+
+        imageRepository.deleteAll(imagesToDelete);
+        return SuccessMessages.IMAGE_DELETED_SUCCESS;
+    }
+
+    public ImageResponseForAdvert setFeaturedImage(Long imageId) {
+        Image image = imageRepository.findById(imageId)
+               .orElseThrow(() -> new ResourceNotFoundException(String.format(ErrorMessages.IMAGE_ID_NOT_FOUND_ERROR, imageId)));
+
+
+        List<Image> images = imageRepository.findAllByAdvertId(image.getAdvert().getId());
+
+
+        Image featuredImage = images.stream()
+               .filter(i -> i.isFeatured())
+               .findFirst()
+               .orElse(null);
+
+        if (featuredImage!= null) {
+            featuredImage.setFeatured(false);
+            imageRepository.save(featuredImage);
+        }
+
+
+        image.setFeatured(true);
+        imageRepository.save(image);
 
 
         return imageMapper.toImageResponse(image);
