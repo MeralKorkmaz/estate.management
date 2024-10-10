@@ -42,7 +42,7 @@ public class ContactMessageController {
         return ResponseEntity.ok(contactMessageService.getContactMessageById(id));
     }
 
-    @DeleteMapping("/id")
+    @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('Admin', 'Manager')")
     public ResponseEntity<String> deleteById (@PathVariable Long id){
         return ResponseEntity.ok(contactMessageService.deleteById(id));
